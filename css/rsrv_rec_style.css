@@ -1,0 +1,445 @@
+
+    * {box-sizing:border-box;}
+    ul {list-style-type: none;}
+
+    form {
+        width: 320px;
+        margin: 30px auto;
+        text-align: left;
+        padding: 20px; 
+        border: 3px solid crimson; 
+        border-radius: 5px;
+        font-family: "Raleway", sans-serif;
+        float: none;
+    }
+
+
+    .input-group {
+        margin: 20px 0px 20px 0px;
+
+    }
+    .input-group label {
+        display: block;
+        text-align: left;
+        margin: 3px;
+        font-size: 20px;
+    }
+    .input-group input {
+        height: 40px;
+        width: 275px;
+        padding: 5px 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid gray;
+    }
+
+    .input-group input:focus{
+        border: 2px solid black;
+    }
+
+    .btn {
+        width: 112px;
+        padding: 10px;
+        font-size: 20px;
+        color: white;
+        background: firebrick;
+        border: none;
+        border-radius: 5px;
+    }
+    .btn:hover{
+        background: darkred;
+        cursor: pointer;    
+        transition-duration: 1s;
+    }
+
+
+
+    .view_btn {
+        text-decoration: none;
+        padding: 2px 5px;
+        background: #2E8B57;
+        color: white;
+        border-radius: 3px;
+    }
+
+    .check_btn {
+        text-decoration: none;
+        padding: 2px 5px;
+        color: white;
+        border-radius: 3px;
+        background: dodgerblue;
+    }
+
+    .uncheck_btn{
+        text-decoration: none;
+        padding: 2px 5px;
+        color: white;
+        border-radius: 3px;
+        background: red;
+    }
+    .msg {
+        margin: 30px auto; 
+        padding: 10px; 
+        border-radius: 5px; 
+        color: #3c763d; 
+        background: #dff0d8; 
+        border: 1px solid #3c763d;
+        width: 50%;
+        text-align: center;
+    }
+
+    span,a{
+        font-family: "Raleway", sans-serif;
+    }
+
+
+    /* try lng */
+
+ .view_fulfill { 
+        font-family: "Raleway",sans-serif;
+        width: 60%;
+        border-collapse: collapse; 
+        max-height: 85%;
+        border: 2px solid crimson;
+        display: block;
+        left: 30%;
+        position: fixed;
+        overflow-y: scroll;
+        font-size: 16px;
+        }
+
+ .result { 
+        border-collapse: collapse; 
+        width: 60%;
+        left: 30%;
+        margin-top: 25%;
+        display: block;
+        position: fixed;
+        overflow-y: scroll;
+        max-height: 85%;
+     }
+
+
+    /* Zebra striping */
+    tr:nth-of-type(odd) { 
+        background: none; 
+        }
+        
+
+    th { 
+        background: none; 
+        color: black; 
+        font-weight: normal;
+        }
+
+    td, th { 
+        padding: 5px; 
+        text-align: left; 
+        font-size: 18px;
+        }
+
+    /* 
+    Max width before this PARTICULAR table gets nasty
+    This query will take effect for any screen smaller than 760px
+    and also iPads specifically.
+    */
+
+    @media (min-width: 993px) and (max-width: 1366px) {
+          form{
+           margin-left:31%;
+           position: fixed;
+
+
+        }
+         table{
+            position: absolute;
+            top: 45px;
+
+         }
+         .logout{
+            visibility: hidden;
+         }
+
+    }
+    @media 
+    only screen and (max-width: 760px) ,(min-width:760px) and (max-width:768px),
+    (min-width: 768px) and (max-width: 1024px)  {
+
+      
+        table { 
+            /*width: 100%; */
+            width: 320px;
+            margin: 30px auto;
+            position: absolute;
+            right: 0%;
+
+        }
+
+        /* Force table to not be like tables anymore */
+        table, thead, tbody, th, td, tr { 
+            display: block; 
+        }
+        
+        /* Hide table headers (but not display: none;, for accessibility) */
+        thead tr { 
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+        
+        tr { border: 1px solid #ccc; }
+        
+        td { 
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee; 
+            position: relative;
+            padding-left: 50%; 
+        }
+
+        td:before { 
+            /* Now like a table header */
+            position: absolute;
+            /* Top/left values mimic padding */
+            top: 6px;
+            left: 6px;
+            width: 45%; 
+            padding-right: 10px; 
+            white-space: nowrap;
+                
+            color: #000;
+            font-weight: bold;
+        }
+              /* Label the data */
+            td:nth-of-type(1):before { content: "Item Name"; }
+            td:nth-of-type(2):before { content: "Quantity"; }
+            td:nth-of-type(3):before { content: "Tag"; }
+            td:nth-of-type(4):before { content: "Cost"; }
+            td:nth-of-type(5):before { content: "Date modified"; }
+            td:nth-of-type(6):before { content: "Actions"; }
+    }
+
+    .logout {
+        display: block;
+        text-align: center;
+        text-transform: capitalize;
+    }
+
+    @media (min-width:993px) {
+        
+         form {
+            width: 320px;
+            text-align: left;
+            padding: 20px; 
+            border: 3px solid crimson; 
+            border-radius: 5px;
+            font-family: "Raleway", sans-serif;
+            float: none;
+
+        }
+
+       
+    }
+
+    @media (min-width: 1366px) {
+        form {
+        width: 320px;
+        margin: 30px auto;
+        text-align: left;
+        padding: 20px; 
+        border: 3px solid crimson; 
+        border-radius: 5px;
+        font-family: "Raleway", sans-serif;
+        float: none;
+        position: fixed;
+    }
+
+
+    .input-group {
+        margin: 20px 0px 20px 0px;
+
+
+    }
+    .input-group label {
+        display: block;
+        text-align: left;
+        margin: 3px;
+        font-size: 20px;
+    }
+    .input-group input {
+        height: 40px;
+        width: 275px;
+        padding: 5px 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid gray;
+    }
+
+    .input-group input:focus{
+        border: 2px solid black;
+    }
+
+    .btn {
+        width: 112px;
+        padding: 10px;
+        font-size: 20px;
+        color: white;
+        background: firebrick;
+        border: none;
+        border-radius: 5px;
+    }
+    .btn:hover{
+        background: darkred;
+        cursor: pointer;    
+        transition-duration: 1s;
+    }
+
+
+    .edit_btn {
+        text-decoration: none;
+        padding: 2px 5px;
+        background: #2E8B57;
+        color: white;
+        border-radius: 3px;
+    }
+
+    .del_btn {
+        text-decoration: none;
+        padding: 2px 5px;
+        color: white;
+        border-radius: 3px;
+        background: #800000;
+    }
+    .msg {
+        margin: 30px auto; 
+        padding: 10px; 
+        border-radius: 5px; 
+        color: #3c763d; 
+        background: #dff0d8; 
+        border: 1px solid #3c763d;
+        width: 50%;
+        text-align: center;
+    }
+
+    span,a{
+        font-family: "Raleway", sans-serif;
+    }
+
+
+
+
+    /* try lng */
+
+    table { 
+        font-family: "Raleway",sans-serif;
+        width: 45%; 
+        border-collapse: collapse; 
+        margin:50px auto;
+        overflow-y: scroll;
+        margin: 30px auto 30px auto;
+        border: 2px solid black;
+        display: block;
+      
+        
+        }
+
+    /* Zebra striping */
+    tr:nth-of-type(odd) { 
+        background: none; 
+        }
+        
+
+    th { 
+        background: none; 
+        color: black; 
+        font-weight: normal;
+        }
+
+    td, th { 
+        padding: 5px; 
+        text-align: left; 
+        font-size: 18px;
+        }
+
+
+     form {
+           
+            margin-left: 350px;
+
+        }
+
+     table {
+            margin-right: 1.5%;
+
+        }
+
+    .logout {
+            visibility: hidden;
+        }
+    }
+
+
+    @media (min-width:1024px) and (max-width:1365px)
+    {
+       
+          table { 
+            /*width: 100%; */
+            width: 30%;
+            margin: 30px auto;
+           
+        }
+
+        /* Force table to not be like tables anymore */
+        table, thead, tbody, th, td, tr { 
+            display: block; 
+        }
+        
+        /* Hide table headers (but not display: none;, for accessibility) */
+        thead tr { 
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+        
+        tr { border: 1px solid #ccc; }
+        
+        td { 
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee; 
+            position: relative;
+            padding-left: 50%; 
+        }
+
+        td:before { 
+            /* Now like a table header */
+            position: absolute;
+            /* Top/left values mimic padding */
+            top: 6px;
+            left: 6px;
+            width: 45%; 
+            padding-right: 10px; 
+            white-space: nowrap;
+                
+            color: #000;
+            font-weight: bold;
+        }
+              /* Label the data */
+            td:nth-of-type(1):before { content: "Item Name"; }
+            td:nth-of-type(2):before { content: "Quantity"; }
+            td:nth-of-type(3):before { content: "Tag"; }
+            td:nth-of-type(4):before { content: "Cost"; }
+            td:nth-of-type(5):before { content: "Date modified"; }
+            td:nth-of-type(6):before { content: "Actions"; }
+    }
+
+@media (max-width:993px) {
+    table {
+        position: relative;
+        margin: 30px auto;
+        max-height: 100%;
+        border: 2px solid black;
+    }
+}
+
+

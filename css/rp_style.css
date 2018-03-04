@@ -1,0 +1,230 @@
+
+
+body {
+    font-size: 19px;
+}
+
+/*table{
+    width: 65%;
+    margin: 30px auto;
+    border-collapse: collapse;
+    text-align: left;
+    font-family: "Raleway", sans-serif;
+}
+tr {
+    border-bottom: 1px solid #cbcbcb;
+}
+
+th, td{
+    border: none;
+    height: 30px;
+    padding: 2px;
+    font-family: "Raleway", sans-serif;
+}
+tr:hover {
+    background: #F5F5F5;
+} */
+
+form {
+    width: 75%;
+    margin-top: 50px;
+    margin-right: 1%!important;
+    text-align: left; 
+    border: 3px solid black; 
+    border-radius: 5px;
+    font-family: "Raleway", sans-serif;
+    min-width: 320px;
+}
+
+
+.input-group {
+    margin: 10px 0px 10px 0px;
+   
+}
+
+label, #num{
+     font-family: "Raleway", sans-serif;
+}
+
+.btn{
+    width: 20%;
+    padding: 12px 9px;
+    font-size: 15px;
+    color: white;
+    background: firebrick;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    min-width: 100px;
+}
+
+.btn:hover {
+    background: darkred;
+    transition-duration: 1s;
+}
+
+.view_btn {
+    text-decoration: none;
+    padding: 2px 5px;
+    background: slateblue;
+    color: white;
+    border-radius: 3px;
+}
+
+.check_btn{
+    text-decoration: none;
+    padding: 2px 5px;
+    background: goldenrod;
+    color: white;
+    border-radius: 3px;
+}
+
+.uncheck_btn{
+    text-decoration: none;
+    padding: 2px 5px;
+    background: red;
+    color: white;
+    border-radius: 3px;
+}
+
+
+.check_btn:hover{
+    background:orangered;
+}
+
+
+.view_btn:hover {
+    background: midnightblue;
+}
+
+.button{
+    width: auto;
+    padding: 12px 20px;
+    font-size: 15px;
+    color: white;
+    background: slateblue;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration:none;
+    float: right; 
+    margin-right: 35%;
+
+}
+
+.button:hover{
+    background: midnightblue;
+    transition-duration: 1s;
+}
+
+span, a{
+    font-family: "Raleway", sans-serif;
+}
+
+
+
+
+
+/* try lng */
+
+table { 
+    font-family: "Raleway",sans-serif;
+    width: 70%!important; 
+    border-collapse: collapse; 
+    margin-top: 30px;
+    margin-left: 25%;
+    margin-right:20%;
+    min-width: 320px;
+    }
+
+/* Zebra striping */
+tr:nth-of-type(odd) { 
+    background: none; 
+    }
+
+th { 
+    background: none; 
+    color: teal; 
+    font-weight: normal;
+
+    }
+
+td, th { 
+    padding: 5px; 
+    text-align: left; 
+    font-size: 18px;
+    }
+
+
+/* 
+Max width before this PARTICULAR table gets nasty
+This query will take effect for any screen smaller than 760px
+and also iPads specifically.
+*/
+@media 
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+    table {
+        margin-left: auto!important;
+        margin-right: auto!important;
+        margin-top:100px;
+    }
+
+    /* Force table to not be like tables anymore */
+    table, thead, tbody, th, td, tr { 
+        display: block!important; 
+        overflow: initial;
+    }
+    
+    /* Hide table headers (but not display: none;, for accessibility) */
+    thead tr { 
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    
+    tr { border: 1px solid #ccc;
+     }
+    
+    th {
+        color: teal!important;
+    }
+
+    td { 
+        /* Behave  like a "row" */
+        border: none;
+        border-bottom: 1px solid #eee; 
+        position: relative;
+        padding-left: 50%!important; 
+    }
+    
+    td:before { 
+        /* Now like a table header */
+        position: absolute;
+        /* Top/left values mimic padding */
+        top: 6px;
+        left: 6px;
+        width: 45%; 
+        padding-right: 10px; 
+        white-space: nowrap;
+    }
+    
+    /*
+    Label the data
+    */
+    td:nth-of-type(1):before { content: "Session Number"; }
+    td:nth-of-type(2):before { content: "Date Modified"; }
+    td:nth-of-type(3):before { content: "Revenue"; }
+    td:nth-of-type(4):before { content: "Action"; }
+   
+}
+
+@media (max-width:992px) {
+    table {
+        margin-left: auto!important;
+        margin-right: auto!important;        
+    }
+   
+
+}

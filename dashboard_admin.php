@@ -7,10 +7,21 @@
   include('include/user_check.php');
   include('include/user_inaccessible.php');
 
+  // Data analytics for Messages
+  $message_query = mysqli_query($db, "SELECT * FROM messaging_admin WHERE unread=1");
+  $message_count = mysqli_num_rows($message_query);
+
+  // Data analytics for Job Orders
+  $completed = "completed";
+  $jo_query = mysqli_query($db, "SELECT * FROM job_order WHERE status!='$completed'");
+  $jo_count = mysqli_num_rows($jo_query);
+
   // Data analytics for Repairs
   $pending = "pending";
   $repair_query = mysqli_query($db, "SELECT * FROM item_request WHERE request_status = '$pending'");
   $repair_count = mysqli_num_rows($repair_query);
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -91,8 +102,6 @@ ul {list-style-type: none;}
         <div class="w3-right">
           <h3>
             <?php 
-              $results = mysqli_query($db, "SELECT * FROM messaging_admin WHERE unread=1");
-              $message_count = mysqli_num_rows($results);
               echo $message_count;
             ?>
           </h3>
@@ -107,10 +116,14 @@ ul {list-style-type: none;}
       <div class="w3-container w3-teal w3-padding-16">
         <div class="w3-left"><i class="fa fa-list w3-xxxlarge"></i></div>
         <div class="w3-right">
-          <h3>23</h3>
+          <h3>
+            <?php
+              echo $jo_count;
+            ?>
+          </h3>
         </div>
         <div class="w3-clear"></div>
-        <h4>Inventory</h4>
+        <h4>Requested/On-Going Job Orders</h4>
       </div>
     </div>
     <div class="w3-quarter">

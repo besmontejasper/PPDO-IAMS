@@ -20,7 +20,6 @@ if (isset($_GET['edit'])) {
 		$unrentable_stock = $n['unrentable_stock'];
 		$item_tag = $n['item_tag'];
 		$item_cost = $n['item_cost'];
-		$rental_cost = $n['rental_cost'];
 	}
 }
 ?>
@@ -33,7 +32,7 @@ if (isset($_GET['edit'])) {
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="css/rsrvp_style.css">
 	<link rel="stylesheet" type="text/css" href="css/fab_admin.css">
-	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" href="css/w3schools.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -104,7 +103,6 @@ if (isset($_GET['edit'])) {
 						<th>Stocks</th>
 						<th>Item Tag</th>
 						<th>Price</th>
-						<th>Rental Cost</th>
 						<th>Date Modified</th>
 						<th>Actions</th>
 					</tr> 
@@ -118,8 +116,7 @@ if (isset($_GET['edit'])) {
 						<td><?php echo $row['item_name']; ?></td>
 						<td><?php echo $row['item_quantity'] + $row['unrentable_stock']; ?></td>
 						<td><?php echo $row['item_tag']; ?></td>
-						<td><?php echo $row['item_cost']; ?></td>				
-						<td><?php echo $row['rental_cost']; ?></td>
+						<td><?php echo $row['item_cost']; ?></td>	
 						<td><?php echo $row['date_modified']; ?></td>
 						<td><a href="inventory.php?edit=<?php echo $row['id']; ?>" class="view_btn" onclick="document.getElementById('id01').style.display='block'"><i class="fa fa-pencil-square-o"></i></a>
 							<a href="inv_server.php?del=<?php echo $row['id']; ?>" class="check_btn"><i class="fa fa-remove"></i></a></td>
@@ -177,8 +174,6 @@ if (isset($_GET['edit'])) {
 						<div class="w3-section">
 							<label><b>Price</b></label>
 							<input class="w3-input w3-border w3-margin-bottom" type="number" name="item_cost" min="0" step="0.01" value="<?php echo $item_cost; ?>" required>
-							<label><b>Rental Cost</b></label>
-							<input class="w3-input w3-border" type="number" name="item_cost" min="0" step="0.01" value="<?php echo $rental_cost; ?>" required>
 						</div>
 					</form>
 				</div>

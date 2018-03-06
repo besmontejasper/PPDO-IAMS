@@ -83,12 +83,12 @@ if (isset($_GET['rent'])) {
       </div>
       <hr>
       <div class="w3-bar-block">
-        <a href="dashboard.php" class="w3-bar-item w3-button w3-padding w3-hover-none w3-amber w3-hover-text-orange" style="font-size: 20px; transition-duration: 0.3s;">Dashboard</a>
+        <a href="dashboard.php" class="w3-bar-item w3-button w3-padding w3-hover-none w3-blue w3-hover-text-blue" style="font-size: 20px; transition-duration: 0.3s;">Dashboard</a>
         <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
         <div class="w3-bar-item w3-button w3-hover-yellow" onclick="myAccFunc()"><i class="fa fa-list"></i>
          Requests <i class="fa fa-caret-down"></i></div>
          <div id="demoAcc" class="w3-hide w3-white w3-card-4">
-            <a href="javascript:void(0)" class="w3-bar-item w3-button w3-dark-grey w3-button w3-hover-green w3-left-align" onclick="document.getElementById('id01').style.display='block'" style="transition-duration: 0.3s;">Request<i class="w3-padding fa fa-ticket"></i></a>
+            <a href="javascript:void(0)" class="w3-bar-item w3-button w3-dark-grey w3-button w3-hover-green w3-left-align" onclick="document.getElementById('id01').style.display='block'" style="transition-duration: 0.3s;">Rent<i class="w3-padding fa fa-cart-arrow-down"></i></a>
         </div>
     </div>
 
@@ -108,7 +108,7 @@ if (isset($_GET['rent'])) {
     <div class="w3-modal-content w3-animate-zoom" style="width: 400px;">
         <div class="w3-container w3-padding w3-indigo">
             <header class="w3-padding"> 
-              <h2 class="w3-center" style="color: white;">Rental Form</h2>
+              <h2 class="w3-center" style="color: white;"><b>Rental Form<b></h2>
               </header>
               <form method="post" action="request_server.php" class="w3-container" >
 
@@ -141,7 +141,7 @@ if (isset($_GET['rent'])) {
                         <input type="number" class="w3-input w3-border w3-margin-bottom"  name="requested_quantity" min="0" value="<?php echo $requested_quantity; ?>" required>
                     </div>
                     <div class="input-group w3-margin-bottom">
-                        <button class="btn w3-button w3-green" type="submit" name="rent" >Send Request  <i class="fa fa-paper-plane"></i></button>
+                        <button class="btn w3-button w3-green" type="submit" name="rent" >Rent  <i class="fa fa-shopping-cart"></i></button>
                         <button onclick="document.getElementById('id01').style.display='none'" type="button" class="w3-button w3-red">Cancel <i class="fa fa-remove"></i></button>
                     </div>
 
@@ -284,11 +284,11 @@ function w3_close() {
     var x = document.getElementById("demoAcc");
     if (x.className.indexOf("w3-show") == -1) {
       x.className += " w3-show";
-      x.previousElementSibling.className += " w3-yellow";
+      x.previousElementSibling.className += " w3-indigo";
   } else { 
       x.className = x.className.replace(" w3-show", "");
       x.previousElementSibling.className = 
-      x.previousElementSibling.className.replace(" w3-yellow", "");
+      x.previousElementSibling.className.replace(" w3-indigo", "");
   }
 }
 
@@ -296,11 +296,11 @@ function myDropFunc() {
     var x = document.getElementById("demoDrop");
     if (x.className.indexOf("w3-show") == -1) {
       x.className += " w3-show";
-      x.previousElementSibling.className += " w3-yellow";
+      x.previousElementSibling.className += " w3-indigo";
   } else { 
       x.className = x.className.replace(" w3-show", "");
       x.previousElementSibling.className = 
-      x.previousElementSibling.className.replace(" w3-yellow", "");
+      x.previousElementSibling.className.replace(" w3-indigo", "");
   }
 }
 

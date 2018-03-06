@@ -8,8 +8,8 @@
   include('include/user_inaccessible.php');
 
   // Data analytics for Repairs
-  $cancelled = "cancelled";
-  $repair_query = mysqli_query($db, "SELECT * FROM item_request WHERE request_status != '$cancelled'");
+  $pending = "pending";
+  $repair_query = mysqli_query($db, "SELECT * FROM item_request WHERE request_status = '$pending'");
   $repair_count = mysqli_num_rows($repair_query);
 ?>
 <!DOCTYPE html>
@@ -17,7 +17,7 @@
 <title>Electronic Inventory System</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="css/w3schools.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" type="text/css" href="css/fab_admin.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -89,12 +89,20 @@ ul {list-style-type: none;}
       <div class="w3-container w3-red w3-padding-16">
         <div class="w3-left"><i class="fa fa-comments w3-xxxlarge"></i></div>
         <div class="w3-right">
-          <h3>52</h3>
+          <h3>
+            <?php 
+              $results = mysqli_query($db, "SELECT * FROM messaging_admin WHERE unread=1");
+              $message_count = mysqli_num_rows($results);
+              echo $message_count;
+            ?>
+          </h3>
         </div>
         <div class="w3-clear"></div>
-        <h4>Request Service</h4>
+        <h4>Unread Messages</h4>
       </div>
     </div>
+
+
     <div class="w3-quarter">
       <div class="w3-container w3-teal w3-padding-16">
         <div class="w3-left"><i class="fa fa-list w3-xxxlarge"></i></div>
@@ -111,12 +119,17 @@ ul {list-style-type: none;}
         <div class="w3-right">
           <h3>
             <?php 
-            echo $repair_count;
+            if ($repair_count != 0) {
+              echo $repair_count;  
+            }
+            else {
+              echo "0";
+            }
             ?>
           </h3>
         </div>
         <div class="w3-clear"></div>
-        <h4>Repairs</h4>
+        <h4>Pending Repairs</h4>
       </div>
     </div>
     <div class="w3-quarter">

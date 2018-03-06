@@ -66,6 +66,30 @@ label, #num{
         border-radius: 3px;
     }
 
+    .undo_btn{
+        text-decoration: none;
+        padding: 2px 5px;
+        background: goldenrod;
+        color: white;
+        border-radius: 3px;
+    }
+
+    .reject_btn{
+        text-decoration: none;
+        padding: 2px 5px;
+        background: crimson;
+        color: white;
+        border-radius: 3px;
+    }
+
+    .approve_btn{
+        text-decoration: none;
+        padding: 2px 5px;
+        background: slateblue;
+        color: white;
+        border-radius: 3px;
+    }
+
     .del{
         text-decoration: none;
         padding: 2px 5px;

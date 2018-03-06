@@ -15,6 +15,8 @@
   if (isset($_GET['view'])) {
     $message_id = $_GET['view'];
     $view=1;
+      $unread = 0;
+      mysqli_query($db, "UPDATE messaging_admin SET unread='$unread' WHERE id='$message_id'");
   }
 
 ?>
@@ -25,7 +27,7 @@
 <title>Message Board</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="css/w3schools.css">
 <link href='https://fonts.googleapis.com/css?family=RobotoDraft' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><style>
 html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
@@ -60,7 +62,6 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
       <div class="w3-container w3-padding w3-indigo">
          <span onclick="document.getElementById('id01').style.display='none'"
          class="w3-button w3-indigo w3-right w3-xxlarge w3-hover-red" style="transition-duration: 0.3s;"><i class="fa fa-remove"></i></span>
-         <form method="post" action="message_server.php">
         <h2>Send Mail</h2>
       </div>
 
@@ -74,7 +75,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
         <input class="w3-input w3-border w3-margin-bottom" style="height:150px" name="message_body" placeholder="What's on your mind?" value="<?php echo $message_body; ?>">
         <div class="w3-section">
           <a class="w3-button w3-black w3-hover-red" style="transition-duration: 0.3s;" onclick="document.getElementById('id01').style.display='none'">Cancel  <i class="fa fa-remove"></i></a>
-          <button class="w3-button w3-light-grey w3-hover-red w3-right" style="transition-duration: 0.3s;" type="submit" name="send">Send  <i class="fa fa-paper-plane"></i></button> 
+          <button class="w3-button w3-light-grey w3-hover-red w3-right" style="transition-duration: 0.3s;" type="submit" name="send_admin">Send  <i class="fa fa-paper-plane"></i></button> 
         </div>    
       </div>
       </form>

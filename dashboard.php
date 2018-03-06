@@ -17,7 +17,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="css/fab.css">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="css/w3schools.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
@@ -81,13 +81,31 @@ ul {list-style-type: none;}
 
   <div class="w3-row-padding w3-margin-bottom">
 
+  <div class="w3-quarter">
+      <div class="w3-container w3-red w3-padding-16">
+        <div class="w3-left"><i class="fa fa-envelope w3-xxxlarge"></i></div>
+        <div class="w3-right">
+          <h3>
+            <?php 
+              $results = mysqli_query($db, "SELECT * FROM messaging WHERE unread=1");
+              $message_count = mysqli_num_rows($results);
+              echo $message_count;
+            ?>
+          </h3>
+        </div>
+        <div class="w3-clear"></div>
+        <h4>UNREAD MESSAGES</h4>
+      </div>
+    </div>
+
    <div class="w3-quarter">
       <div class="w3-container w3-indigo w3-padding-16">
         <div class="w3-left"><i class="fa fa-shopping-cart w3-xxxlarge"></i></div>
         <div class="w3-right">
           <h3>
             <?php 
-              $results = mysqli_query($db, "SELECT * FROM item_request WHERE requested_by='$username'");
+              $requested_by = $_SESSION['firstname']." ".$_SESSION['lastname'];
+              $results = mysqli_query($db, "SELECT * FROM item_request WHERE requested_by='$requested_by'");
               $request_count = mysqli_num_rows($results);
               echo $request_count;
             ?>
@@ -113,7 +131,7 @@ ul {list-style-type: none;}
       </tr>
       <tr>
       <?php
-        $results_request = mysqli_query($db, "SELECT * FROM item_request WHERE requested_by='$username' ORDER BY id DESC LIMIT 5"); 
+        $results_request = mysqli_query($db, "SELECT * FROM item_request WHERE requested_by='$requested_by' ORDER BY id DESC LIMIT 5"); 
         while ($row_request = (mysqli_fetch_array($results_request))) {
       ?>
         <td><?php echo $row_request['item_name'] ?></td>
@@ -137,7 +155,7 @@ ul {list-style-type: none;}
     </table><br>
     <?php 
     if ($request_count!=0) { ?>
-      <a href="requests.php"><button class="w3-button w3-black w3-padding w3-hover-indigo" style="transition-duration: 0.3s;">More   <i class="fa fa-arrow-right"></i></button></a>
+      <a href="request_repair.php"><button class="w3-button w3-black w3-padding w3-hover-indigo" style="transition-duration: 0.3s;">More   <i class="fa fa-arrow-right"></i></button></a>
     <?php 
     }
     ?>

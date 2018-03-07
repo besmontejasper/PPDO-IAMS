@@ -26,7 +26,7 @@
 <title>Message Board</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="css/w3schools.css">
+<link rel="stylesheet" type="text/css" href="css/w3schools.css">
 <link href='https://fonts.googleapis.com/css?family=RobotoDraft' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
@@ -36,10 +36,10 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
 <body>
 
 <!-- Side Navigation -->
-!-- Top container -->
-<div class="w3-bar w3-top w3-black w3-large" style="z-index:4"> 
-  <span class="w3-bar-item w3-margin-left">SHERWIN'S CATERING</span>
-  <span class="w3-bar-item w3-right">MESSAGE BOARD</span>
+<!-- Top container -->
+<div class="w3-bar w3-top w3-deep-orange w3-large" style="z-index:4"> 
+  <span class="w3-bar-item w3-margin-left w3-text-white">PPDO Inventory Archive Management System</span>
+  <span class="w3-bar-item w3-right w3-text-white">MESSAGE BOARD</span>
 </div>
 <br>
 <br>
@@ -47,7 +47,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
   <a href="javascript:void(0)" onclick="w3_close()" title="Close Sidemenu" 
   class="w3-bar-item w3-button w3-hide-large w3-large">Close <i class="fa fa-remove"></i></a><!-- responsive menu -->
   <a href="javascript:void(0)" class="w3-bar-item w3-button w3-dark-grey w3-button w3-hover-black w3-left-align" onclick="document.getElementById('id01').style.display='block'" style="transition-duration: 0.3s;">Compose <i class="w3-padding fa fa-pencil"></i></a>
-  <a href="messaging_admin.php" class="w3-bar-item w3-button w3-hover-indigo"><i class="fa fa-inbox w3-margin-right"></i>Inbox<i class="fa fa-caret-right w3-margin-left"></i></a>
+  <a href="messaging_admin.php" class="w3-bar-item w3-button w3-hover-deep-orange"><i class="fa fa-inbox w3-margin-right"></i>Inbox<i class="fa fa-caret-right w3-margin-left"></i></a>
 
   <a href="messaging_sent_admin.php" class="w3-bar-item w3-button w3-hover-green"><i class="fa fa-paper-plane w3-margin-right"></i>Sent</a>
   <a href="messaging_trash_admin.php" class="w3-bar-item w3-button w3-hover-red"><i class="fa fa-trash w3-margin-right"></i>Trash</a>
@@ -72,10 +72,10 @@ html,body,h1,h2,h3,h4,h5 {font-family: "RobotoDraft", "Roboto", sans-serif}
         <input class="w3-input w3-border w3-margin-bottom" type="text" name="message_subject" placeholder="Subject" value="<?php echo $message_subject; ?>">
         <label>To</label>
         <input class="w3-input w3-border w3-margin-bottom" type="email" name="message_recipient" placeholder="Recipient's Email" value="<?php echo $message_recipient; ?>">
-        <input class="w3-input w3-border w3-margin-bottom" style="height:150px" name="message_body" placeholder="What's on your mind?" value="<?php echo $message_body; ?>">
+        <textarea class="w3-input w3-border w3-margin-bottom" style="height:150px; resize: none;" name="message_body" placeholder="What's on your mind?" value="<?php echo $message_body; ?>"></textarea>
         <div class="w3-section">
           <a class="w3-button w3-black w3-hover-red" style="transition-duration: 0.3s;" onclick="document.getElementById('id01').style.display='none'">Cancel  <i class="fa fa-remove"></i></a>
-          <button class="w3-button w3-light-grey w3-hover-red w3-right" style="transition-duration: 0.3s;" type="submit" name="send_admin">Send  <i class="fa fa-paper-plane"></i></button> 
+          <button class="w3-button w3-light-grey w3-hover-green w3-right" style="transition-duration: 0.3s;" type="submit" name="send_admin">Send  <i class="fa fa-paper-plane"></i></button> 
         </div>    
       </div>
       </form>
@@ -142,9 +142,9 @@ if ($inbox_count!=0){
    <br>
     <br>
     <br>
-    <h1 class="w3-margin-left w3-large w3-margin-top " style="margin-bottom: 5%;">Subject:<strong style="color: crimson;"><?php echo $row['message_subject']; ?></strong></h1>
+    <h1 class="w3-margin-left w3-large w3-margin-top ">Subject:&nbsp;<strong style="color: crimson;"><?php echo $row['message_subject']; ?></strong></h1>
     <p class="w3-margin-left w3-small">Sent on <strong><?php echo $row['date_sent']; ?></strong> by <strong><?php echo $row['user_sender']; ?></strong></p>
-    <p class="w3-margin-left w3-border w3-padding-large w3-teal w3-margin-right"><?php echo $row['message_body']; ?></p>
+    <p class="w3-margin-left w3-border w3-padding-large w3-white w3-margin-right"><?php echo $row['message_body']; ?></p>
      
   <?php
     }

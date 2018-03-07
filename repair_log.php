@@ -14,7 +14,7 @@
   $pending = "pending";
   $approved = "approved";
   $rejected = "rejected";
-  $cancelled = "cancelled";
+  $canceled = "canceled";
 
 ?>
 
@@ -155,11 +155,11 @@
   </table>  
 
   <?php
-    $results = mysqli_query($db, "SELECT * FROM item_request WHERE request_status = '$cancelled' "); 
+    $results = mysqli_query($db, "SELECT * FROM item_request WHERE request_status = '$canceled' "); 
     ($count = mysqli_num_rows($results));
       if ($count!=0){ 
   ?>
-  <h2 style="color: red;">Cancelled Repairs</h2>
+  <h2 style="color: red;">Canceled Repairs</h2>
   <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
     <thead>
       <div>
@@ -180,7 +180,7 @@
     <thead>
       <div>
         <tr>
-          <?php if ($row['request_status']=="cancelled") {?>
+          <?php if ($row['request_status']=="canceled") {?>
            <td><?php echo $row['id']; ?></td>
           <td><?php echo $row['item_name']; ?></td>
           <td><?php echo $row['requested_by'];  ?></td>

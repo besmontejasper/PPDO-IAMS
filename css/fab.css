@@ -71,28 +71,28 @@
 
 #container-floating:hover .edit{
   animation: edit-in 0.2s;
-   animation-delay: 0.1s;
+  animation-delay: 0.1s;
   animation-fill-mode: forwards;
 }
 
 @keyframes edit-in{
-    from {opacity: 0; transform: rotateZ(-70deg);}
-    to {opacity: 1; transform: rotateZ(0deg);}
+  from {opacity: 0; transform: rotateZ(-70deg);}
+  to {opacity: 1; transform: rotateZ(0deg);}
 }
 
 @keyframes edit-out{
-    from {opacity: 1; transform: rotateZ(0deg);}
-    to {opacity: 0; transform: rotateZ(-70deg);}
+  from {opacity: 1; transform: rotateZ(0deg);}
+  to {opacity: 0; transform: rotateZ(-70deg);}
 }
 
 @keyframes plus-in{
-    from {opacity: 1; transform: rotateZ(0deg);}
-    to {opacity: 0; transform: rotateZ(180deg);}
+  from {opacity: 1; transform: rotateZ(0deg);}
+  to {opacity: 0; transform: rotateZ(180deg);}
 }
 
 @keyframes plus-out{
-    from {opacity: 0; transform: rotateZ(180deg);}
-    to {opacity: 1; transform: rotateZ(0deg);}
+  from {opacity: 0; transform: rotateZ(180deg);}
+  to {opacity: 1; transform: rotateZ(0deg);}
 }
 
 .nds{
@@ -135,13 +135,13 @@
 
 
 @keyframes bounce-nds{
-    from {opacity: 0;}
-    to {opacity: 1; transform: scale(1);}
+  from {opacity: 0;}
+  to {opacity: 1; transform: scale(1);}
 }
 
 @keyframes bounce-out-nds{
-    from {opacity: 1; transform: scale(1);}
-    to {opacity: 0; transform: scale(0);}
+  from {opacity: 1; transform: scale(1);}
+  to {opacity: 0; transform: scale(0);}
 }
 
 #container-floating:hover .nds{
@@ -183,31 +183,249 @@
 }
 
 [data-tooltip]:before {
-              top: 25%;
-              margin-top: -11px;
-              font-weight: normal;
-              font-family: "Raleway", "sans serif";
-              border-radius: 2px;
-              background: black;
-              color: white;
-              content: attr(data-tooltip);
-              font-size: 12px;
-              text-decoration: none;
-              visibility: hidden;
-              opacity: 0;
-              padding: 1px 12px;
-              margin-right: 12px;
-              position: absolute;
-              transform: scale(0);
-              right: 100%;
-              white-space: nowrap;
-              transform-origin: top right;
-              transition: all .3s cubic-bezier(.25, .8, .25, 1);
-            }
-            
-            [data-tooltip]:hover:before {
-              visibility: visible;
-              opacity: 1;
-              transform: scale(1);
-              transform-origin: right center 0;
-            }
+  top: 25%;
+  margin-top: -11px;
+  font-weight: normal;
+  font-family: "Raleway", "sans serif";
+  border-radius: 2px;
+  background: black;
+  color: white;
+  content: attr(data-tooltip);
+  font-size: 12px;
+  text-decoration: none;
+  visibility: hidden;
+  opacity: 0;
+  padding: 1px 12px;
+  margin-right: 12px;
+  position: absolute;
+  transform: scale(0);
+  right: 100%;
+  white-space: nowrap;
+  transform-origin: top right;
+  transition: all .3s cubic-bezier(.25, .8, .25, 1);
+}
+
+[data-tooltip]:hover:before {
+  visibility: visible;
+  opacity: 1;
+  transform: scale(1);
+  transform-origin: right center 0;
+}
+
+
+.view_btn {
+  text-decoration: none;
+  padding: 2px 5px;
+  background: slateblue;
+  color: white;
+  border-radius: 3px;
+}
+
+.check_btn{
+  text-decoration: none;
+  padding: 2px 5px;
+  background: goldenrod;
+  color: white;
+  border-radius: 3px;
+}
+
+.uncheck_btn{
+  text-decoration: none;
+  padding: 2px 5px;
+  background: red;
+  color: white;
+  border-radius: 3px;
+}
+
+.undo_btn{
+  text-decoration: none;
+  padding: 2px 5px;
+  background: goldenrod;
+  color: white;
+  border-radius: 3px;
+}
+
+.reject_btn{
+  text-decoration: none;
+  padding: 2px 5px;
+  background: crimson;
+  color: white;
+  border-radius: 3px;
+}
+
+.approve_btn{
+  text-decoration: none;
+  padding: 2px 5px;
+  background: slateblue;
+  color: white;
+  border-radius: 3px;
+}
+
+.del{
+  text-decoration: none;
+  padding: 2px 5px;
+  background: crimson;
+  color: white;
+  border-radius: 3px;
+}
+
+.cancel_btn{
+ text-decoration: none;
+ padding: 2px 5px;
+ background: crimson;
+ color: white;
+ border-radius: 3px;
+}
+
+.check_btn:hover{
+  background:orangered;
+}
+
+
+.view_btn:hover {
+  background: midnightblue;
+}
+
+.del:hover{
+  background: red;
+}
+
+.button{
+  width: auto;
+  padding: 12px 20px;
+  font-size: 15px;
+  color: white;
+  background: slateblue;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration:none;
+  float: right; 
+  margin-right: 35%;
+
+}
+
+.button:hover{
+  background: midnightblue;
+  transition-duration: 1s;
+}
+
+
+span, a{
+  font-family: "Raleway", sans-serif;
+}
+
+
+
+/* try lng */
+
+table { 
+  font-family: "Raleway",sans-serif;
+  width: 100%!important; 
+  border-collapse: collapse; 
+  margin-top: 30px;
+  margin-left: 0%;
+  margin-right:0%;
+  min-width: 320px;
+}
+
+/* Zebra striping */
+tr:nth-of-type(odd) { 
+  background: none; 
+}
+
+th { 
+  background: none; 
+  color: teal; 
+  font-weight: normal;
+
+}
+
+td, th { 
+  padding: 5px; 
+  text-align: left; 
+  font-size: 18px;
+}
+
+
+/* 
+Max width before this PARTICULAR table gets nasty
+This query will take effect for any screen smaller than 760px
+and also iPads specifically.
+*/
+@media 
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+  h2{
+    margin-top: 10%!important;
+  }
+
+  table {
+    margin-left: auto!important;
+    margin-right: auto!important;
+    margin-top:100px;
+  }
+
+  /* Force table to not be like tables anymore */
+  table, thead, tbody, th, td, tr { 
+    display: block!important; 
+    overflow: initial;
+  }
+  
+  /* Hide table headers (but not display: none;, for accessibility) */
+  thead tr { 
+   
+    top: -9999px;
+    left: -9999px;
+  }
+  
+  tr { border: 1px solid #ccc;
+  }
+  
+  th {
+    color: teal!important;
+  }
+
+  td { 
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee; 
+    position: relative;
+    padding-left: 50%!important; 
+  }
+  
+  td:before { 
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 45%; 
+    padding-right: 10px; 
+    white-space: nowrap;
+  }
+  
+    /*
+    Label the data
+    */
+    td:nth-of-type(1):before { content: "Reservation No"; }
+    td:nth-of-type(2):before { content: "Event Name"; }
+    td:nth-of-type(3):before { content: "Customer Name"; }
+    td:nth-of-type(4):before { content: "Date and Time"; }
+    td:nth-of-type(5):before { content: " Actions"; }
+
+    .w3-table > thead:nth-child(1) > tr:nth-child(1) {
+      display: none!important;
+    }
+    
+  }
+
+  @media (max-width:992px) {
+    table {
+      margin-left: auto!important;
+      margin-right: auto!important;        
+    }
+    
+
+  }

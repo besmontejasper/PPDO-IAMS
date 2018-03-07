@@ -6,18 +6,18 @@ if (!isset($_SESSION)) {
 $db = mysqli_connect('localhost', 'root', '', 'ppdo_iams');
 include('include/user_check.php');
 include('include/user_inaccessible.php');
-    $jo_number = "";
-    $work_area = "";
-    $completion_date = "";
-    $date_released = "";
-    $description = "";
-    $quantity = "";
-    $unit = "";
-    $ppdo_staff_name = "";
-    $pr_number = "";
-    $revision = "";
-    $status = "";
-    $note_type = "";
+$jo_number = "";
+$work_area = "";
+$completion_date = "";
+$date_released = "";
+$description = "";
+$quantity = "";
+$unit = "";
+$ppdo_staff_name = "";
+$pr_number = "";
+$revision = "";
+$status = "";
+$note_type = "";
 
 
 if (isset($_GET['edit'])) {
@@ -40,12 +40,19 @@ if (isset($_GET['edit'])) {
     $status = $n['status'];
     $note_type = $n['note_type'];
   }
-   ?>
-   <body onload = "edit_modal()"> </body>
-   <?php
+  ?>
+  <body onload = "edit_modal()"> </body>
+  <?php
+}
+
+
+if (isset($_GET['del'])) {
+  $id = $_GET['del'];
+  $record = mysqli_query($db, "DELETE FROM job_order WHERE id=$id");
+  header('location: job_order.php');
 }
 ?>
-?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,6 +60,7 @@ if (isset($_GET['edit'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="css/w3schools.css">
+  <link rel="stylesheet" type="text/css" href="css/fab_admin.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script>
@@ -106,13 +114,13 @@ if (isset($_GET['edit'])) {
 
 
 
-    <!-- Table for JO -->
-
-<?php $results = mysqli_query($db, "SELECT * FROM job_order"); ?>
+<!-- Table for JO -->
 <div class="w3-main" style="margin-left:300px;margin-top:43px;">
   <div class="w3-container">
+<?php $results = mysqli_query($db, "SELECT * FROM job_order"); ?>
+    <br>
     <h2 style="color: crimson;">Job Orders</h2>
-    <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+     <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-margin-bottom w3-responsive">
       <thead>
         <div>
           <tr>
@@ -140,12 +148,12 @@ if (isset($_GET['edit'])) {
             <td><?php echo $row['work_area']; ?></td>
             <td>
               <?php 
-                if ($row['completion_date'] == "0000-00-00") {
-                  echo "Not completed";
-                }
-                else {
-                  echo $row['completion_date'];  
-                }
+              if ($row['completion_date'] == "0000-00-00") {
+                echo "Not completed";
+              }
+              else {
+                echo $row['completion_date'];  
+              }
               ?>
             </td>          
             <td><?php echo $row['date_released']; ?></td>
@@ -157,7 +165,7 @@ if (isset($_GET['edit'])) {
             <td><?php echo $row['revision']; ?></td> 
             <td><?php echo $row['status']; ?></td>
             <td><a href="job_order.php?edit=<?php echo $row['id']; ?>" class="view_btn" onclick="document.getElementById('id01').style.display='block'"><i class="fa fa-pencil-square-o"></i></a>
-              <a href="jo_server.php?del=<?php echo $row['id']; ?>" class="check_btn"><i class="fa fa-remove"></i></a></td>
+              <a href="job_order.php?del=<?php echo $row['id']; ?>" class="check_btn"><i class="fa fa-remove"></i></a></td>
             </tr>
             <?php } ?>
           </div>
@@ -170,142 +178,148 @@ if (isset($_GET['edit'])) {
 
 
 
-<!-- Modal that pops up when you click on "New Message" -->
+  <!-- Modal that pops up when you click on "New Message" -->
 
-<div id="id01" class="w3-modal" style="z-index:4">
-  <div class="w3-modal-content w3-animate-zoom">
-    <div class="w3-container w3-padding w3-indigo">
-     <h2>Create Job Order</h2>
-   </div>
+  <div id="id01" class="w3-modal" style="z-index:4">
+    <div class="w3-modal-content w3-animate-zoom">
+      <div class="w3-container w3-padding w3-indigo">
+       <h2>Create Job Order</h2>
+     </div>
 
-   <form method="post" action="jo_server.php" class="w3-container" >
-    <div class="w3-panel">
-      <div class="w3-twothird w3-margin-left">
-        <label>Job Order #</label>
-        <input class="w3-input w3-border w3-margin-bottom" type="number" name="jo_number" placeholder="0" min="0" value="<?php echo $jo_number; ?>">
-        <label>Work Area</label>
-        <input class="w3-input w3-border w3-margin-bottom" type="text" name="work_area" value="<?php echo $work_area; ?>"></div>
-        
-        <div class="w3-quarter w3-margin-left">
-          <label>Completion Date</label>
-          <input class="w3-input w3-border w3-margin-bottom" name="completion_date" type="Date"  value="<?php echo $completion_date; ?>">
-          <label>Released Date</label>
-          <input class="w3-input w3-border w3-margin-bottom" name="date_released" type="date" value='<?php if (isset($_GET['edit'])) {  echo $date_released; } else { echo date('Y-m-d'); }?>'></div>
-          <div class="w3-third w3-margin-left ">
-            <label>Unit</label>
-            <input class="w3-input w3-border w3-margin-bottom" name="unit" type="text" placeholder="Unit"  value="<?php echo $unit; ?>">
-            <label>Quantity</label>
-            <input class="w3-input w3-border w3-margin-bottom" name="quantity" type="number"  value="<?php echo $quantity; ?>">
-          </div>
+     <form method="post" action="jo_server.php" class="w3-container" >
+      <div class="w3-panel">
+        <div class="w3-twothird w3-margin-left">
+          <label>Job Order #</label>
+          <input class="w3-input w3-border w3-margin-bottom" type="number" name="jo_number" placeholder="Enter Job Order #" min="0" value="<?php echo $jo_number; ?>">
+          <label>Work Area</label>
+          <input class="w3-input w3-border w3-margin-bottom" placeholder="Enter Work Area" type="text" name="work_area" value="<?php echo $work_area; ?>"></div>
 
           <div class="w3-quarter w3-margin-left">
-            <label>Materials PR #</label>
-            <input class="w3-input w3-border w3-margin-bottom" type="number" name="pr_number" placeholder="0" min="0" value="<?php echo $pr_number; ?>">
-            <label>PPDO Staff Name</label>
-            <input class="w3-input w3-border w3-margin-bottom" type="text" name="ppdo_staff_name" value="<?php echo $ppdo_staff_name; ?>"></div>  
-
-            <div class="w3-third w3-margin-left">
-              <label>Revision</label>
-              <input class="w3-input w3-border w3-margin-bottom" name="revision" type="number" placeholder="Enter revision number" min="0"  value="<?php echo $revision; ?>">
-              <label>Status</label>
-              <select name="status">
-              	<?php 
-              		if (isset($_GET['edit'])) {
-              			if ($status == "ongoing") {
-              				?>
-								<option value="requested">requested</option>
-								<option value="ongoing" selected>ongoing</option>
-								<option value="completed">completed</option>
-              				<?php
-              			}
-              			else if ($status == "completed") {
-              				?>
-								<option value="requested">requested</option>
-								<option value="ongoing">ongoing</option>
-								<option value="completed" selected>completed</option>
-              				<?php
-              			}
-              		}
-              		else {
-              			?>
-								<option value="requested" selected>requested</option>
-								<option value="ongoing">ongoing</option>
-								<option value="completed">completed</option>
-              			<?php
-              		}
-              	?>
-								
-				</select>
-              <!-- <input class="w3-input w3-border w3-margin-bottom" name="status" type="text"  value="<?php echo $status; ?>"></div> -->
-            </div> 
-
-            <div class="w3-panel">
-              <div class="w3-half w3-margin-left">
-                <label>Description</label>
-                <input class="w3-input w3-border" style="height: 125px;" name="description" type="text"  value="<?php echo $description; ?>" required>
-              </div>   
-              <div class="w3-rest w3-margin-left">  
-                <div class="w3-container w3-margin-left">
-                  <label><i class="fa fa-print"></i>Print Options:</label><br><br>
-                  <?php 
-                    if (isset($_GET['edit'])) {
-                      if ($note_type == "material") {
-                        ?>
-                        <input type="radio" id="order" name="print" value="order" >
-                      <label for="order">Order Covering Note</label><br><br>
-                      <input type="radio" id="material" name="print" value="material" checked="checked">
-                      <label for="material">Material Issue Note</label>
-                        <?php
-                      }
-                      else {
-                        ?> 
-                      <input type="radio" id="order" name="print" value="order" checked="checked">
-                      <label for="order">Order Covering Note</label><br><br>
-                      <input type="radio" id="material" name="print" value="material">
-                      <label for="material">Material Issue Note</label>
-                        <?php
-                      }
-                    }
-                    else {
-                      ?>
-                      <input type="radio" id="order" name="print" value="order" checked="checked">
-                      <label for="order">Order Covering Note</label><br><br>
-                      <input type="radio" id="material" name="print" value="material">
-                      <label for="material">Material Issue Note</label>
-                      <?php
-                    }
-                  ?>
-                </div>
-              </div>
+            <label>Completion Date</label>
+            <input class="w3-input w3-border w3-margin-bottom" name="completion_date" type="Date"  value="<?php echo $completion_date; ?>">
+            <label>Released Date</label>
+            <input class="w3-input w3-border w3-margin-bottom" name="date_released" type="date" value='<?php if (isset($_GET['edit'])) {  echo $date_released; } else { echo date('Y-m-d'); }?>'></div>
+            <div class="w3-third w3-margin-left ">
+              <label>Quantity</label>
+              <input class="w3-input w3-border w3-margin-bottom" name="quantity" type="number" placeholder="Enter Quantity"  value="<?php echo $quantity; ?>">
+              <label>Unit</label>
+              <input class="w3-input w3-border w3-margin-bottom" name="unit" type="text" placeholder="Enter Unit"  value="<?php echo $unit; ?>">         
             </div>
 
-            <div class="w3-margin-bottom">
-             <div class="w3-container w3-margin-left">  
-         	<?php 
-         		if (isset($_GET['edit'])) {
-         			?>
-         			<input type="hidden" name="edit_id" value="<?php echo $id; ?>">
-         			<button class="w3-button w3-light-grey w3-hover-green" style="transition-duration: 0.3s;" type="submit" name="edit">Edit  <i class="fa fa-paper-plane"></i></button> 
-         			<?php
-         		}
-         		else {
-         			?>
-					<button class="w3-button w3-light-grey w3-hover-green" style="transition-duration: 0.3s;" type="submit" name="send">Send  <i class="fa fa-paper-plane"></i></button> 
-         			<?php
-         		}
-         	?>
-              <button class="w3-button w3-light-grey w3-hover-blue" style="transition-duration: 0.3s;" name="reset">Reset  <i class="fa fa-refresh"></i></button> 
-            </form>
-            <form action="job_order.php">
-                <button class="w3-button w3-black w3-hover-red" style="transition-duration: 0.3s;" onclick="document.getElementById('id01').style.display='none'" type="submit">Cancel  <i class="fa fa-remove"></i></button>
-              </form>
-            </div> 
-          </div>
-  </div>
-</div>
-<!-- END OF INSERTED CONTAINER -->
+            <div class="w3-quarter w3-margin-left">
+              <label>Materials PR #</label>
+              <input class="w3-input w3-border w3-margin-bottom" type="number" name="pr_number" placeholder="Enter Materials PR #" min="0" value="<?php echo $pr_number; ?>">
+              <label>PPDO Staff Name</label>
+              <input class="w3-input w3-border w3-margin-bottom" type="text" name="ppdo_staff_name" placeholder="Enter Staff Name" value="<?php echo $ppdo_staff_name; ?>"></div>  
 
-<script>
+              <div class="w3-third w3-margin-left">
+                <label>Revision</label>
+                <input class="w3-input w3-border w3-margin-bottom" name="revision" type="number" placeholder="Enter revision number" min="0"  value="<?php echo $revision; ?>">
+                <label>Status</label>
+                <select name="status" class="w3-input">
+                 <?php 
+                 if (isset($_GET['edit'])) {
+                  if ($status == "requested") {
+                    ?>
+                    <option value="requested" selected>requested</option>
+                    <option value="ongoing">ongoing</option>
+                    <option value="completed">completed</option>
+                    <?php
+                  }
+                   if ($status == "ongoing") {
+                    ?>
+                    <option value="requested">requested</option>
+                    <option value="ongoing" selected>ongoing</option>
+                    <option value="completed">completed</option>
+                    <?php
+                  }
+                  else if ($status == "completed") {
+                    ?>
+                    <option value="requested">requested</option>
+                    <option value="ongoing">ongoing</option>
+                    <option value="completed" selected>completed</option>
+                    <?php
+                  }
+                }
+                else {
+                 ?>
+                 <option value="requested" selected>requested</option>
+                 <option value="ongoing">ongoing</option>
+                 <option value="completed">completed</option>
+                 <?php
+               }
+               ?>
+
+             </select>
+
+           </div> 
+
+           <div class="w3-panel">
+            <div class="w3-half ">
+              <label>Description</label>
+              <textarea class="w3-input w3-border" style="height: 125px; resize: none;" name="description" type="text" placeholder="Enter Description"  value="<?php echo $description; ?>" required></textarea>
+            </div>   
+            <div class="w3-rest w3-margin-left">  
+              <div class="w3-container w3-margin-left">
+                <label><i class="fa fa-print"></i>Print Options:</label><br><br>
+                <?php 
+                if (isset($_GET['edit'])) {
+                  if ($note_type == "material") {
+                    ?>
+                    <input type="radio" id="order" name="print" value="order" >
+                    <label for="order">Order Covering Note</label><br><br>
+                    <input type="radio" id="material" name="print" value="material" checked="checked">
+                    <label for="material">Material Issue Note</label>
+                    <?php
+                  }
+                  else {
+                    ?> 
+                    <input type="radio" id="order" name="print" value="order" checked="checked">
+                    <label for="order">Order Covering Note</label><br><br>
+                    <input type="radio" id="material" name="print" value="material">
+                    <label for="material">Material Issue Note</label>
+                    <?php
+                  }
+                }
+                else {
+                  ?>
+                  <input type="radio" id="order" name="print" value="order" checked="checked">
+                  <label for="order">Order Covering Note</label><br><br>
+                  <input type="radio" id="material" name="print" value="material">
+                  <label for="material">Material Issue Note</label>
+                  <?php
+                }
+                ?>
+              </div>
+            </div>
+          </div>
+
+          <div class="w3-margin-bottom">
+           <div class="w3-container">  
+            <?php 
+            if (isset($_GET['edit'])) {
+              ?>
+              <input type="hidden" name="edit_id" value="<?php echo $id; ?>">
+              <button class="w3-button w3-light-grey w3-hover-blue w3-left" style="transition-duration: 0.3s;" type="submit" name="edit">Edit&nbsp;<i class="fa fa-pencil"></i></button> 
+              <?php
+            }
+            else {
+              ?>
+              <button class="w3-button w3-light-grey w3-hover-green w3-left" style="transition-duration: 0.3s;" type="submit" name="send">Send&nbsp;<i class="fa fa-paper-plane"></i></button> 
+              <?php
+            }
+            ?>
+        </form>
+          <form action="job_order.php">
+            <button class="w3-button w3-black w3-hover-red w3-left w3-margin-left" style="transition-duration: 0.3s;" onclick="document.getElementById('id01').style.display='none'" type="submit">Cancel&nbsp;<i class="fa fa-remove"></i></button>
+          </form>
+        </div> 
+      </div>
+    </div>
+  </div>
+  <!-- END OF INSERTED CONTAINER -->
+
+  <script>
 // Get the Sidebar
 var mySidebar = document.getElementById("mySidebar");
 

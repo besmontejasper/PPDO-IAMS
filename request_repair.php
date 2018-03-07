@@ -9,7 +9,7 @@
 include 'inv_server.php';
 include 'include/user_check.php';
 $request_username = "";
-$cancelled = "cancelled";
+$canceled = "canceled";
 $username=$_SESSION['username'];
 
 if (isset($_GET['rent'])) {
@@ -48,6 +48,10 @@ if (isset($_GET['rent'])) {
   <?php 
     if (isset($_GET['cancel'])) {
      $id = $_GET['cancel'];
+     $cancel_query = mysqli_query($db, "SELECT * FROM item_request WHERE id='$id'");
+     $row = mysqli_fetch_array($cancel_query);
+     $requested_quantity = $row['requested_quantity'];
+     $inventory_id = $row['inventory_id'];
      ?>
      <body onload = "remark()"> </body>
      <?php
@@ -59,7 +63,7 @@ if (isset($_GET['rent'])) {
       <span class="w3-bar-item w3-margin-left"><img src="css/img/inv/dashboard_logo.png"></span>
       <span class="w3-bar-item w3-right" style="font-weight: bold; font-size: 30px;">REQUEST REPAIRS</span>
   </div>
-
+  
   <!-- Sidebar/menu -->
   <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
       <div class="w3-container w3-row">
@@ -82,25 +86,16 @@ if (isset($_GET['rent'])) {
           </div>
       </div>
       <hr>
-      <div class="w3-bar-block">
+ <div class="w3-bar-block">
         <a href="dashboard.php" class="w3-bar-item w3-button w3-padding w3-hover-none w3-amber w3-hover-text-orange" style="font-size: 20px; transition-duration: 0.3s;">Dashboard</a>
         <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
-        <div class="w3-bar-item w3-button w3-hover-yellow" onclick="myAccFunc()"><i class="fa fa-list"></i>
-         Requests <i class="fa fa-caret-down"></i></div>
-         <div id="demoAcc" class="w3-hide w3-white w3-card-4">
             <a href="javascript:void(0)" class="w3-bar-item w3-button w3-dark-grey w3-button w3-hover-green w3-left-align" onclick="document.getElementById('id01').style.display='block'" style="transition-duration: 0.3s;">Request<i class="w3-padding fa fa-ticket"></i></a>
         </div>
     </div>
-
-
-</div>
-</nav>
-</div>
+  </nav>
 <!-- END OF INSERTED CONTAINER -->
 <br>
 <br>
-
-
 <?php if (isset($_GET['error'])) { ?> 
 <?php echo '<script> errorField() </script>'; ?>    
 <?php } ?>
@@ -108,7 +103,7 @@ if (isset($_GET['rent'])) {
     <div class="w3-modal-content w3-animate-zoom" style="width: 400px;">
         <div class="w3-container w3-padding w3-indigo">
             <header class="w3-padding"> 
-              <h2 class="w3-center" style="color: white;">Rental Form</h2>
+              <h2 class="w3-center" style="color: white;">Request Form</h2>
               </header>
               <form method="post" action="request_server.php" class="w3-container" >
 
@@ -157,7 +152,7 @@ if (isset($_GET['rent'])) {
  <div class="w3-container">
     <?php $results = mysqli_query($db, "SELECT * FROM item_inventory"); ?>
     <h2 style="color: goldenrod;">Current Stock</h2>
-    <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+    <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-margin-bottom">
         <thead>
             <tr>
                 <div class="tags">
@@ -183,8 +178,8 @@ if (isset($_GET['rent'])) {
 $requested_by = $_SESSION['firstname']." ".$_SESSION['lastname'];
 $results = mysqli_query($db, "SELECT * FROM item_request WHERE requested_by='$requested_by'"); 
 ?>
-<h2 style="color: green;">Rent Requests</h2>
-<table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+<h2 style="color: green;">Repair Requests</h2>
+<table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-margin-bottom">
     <thead>
         <tr>
             <div class="tags">      
@@ -206,7 +201,7 @@ $results = mysqli_query($db, "SELECT * FROM item_request WHERE requested_by='$re
         <td><?php echo $row['request_remark']; ?></td>
         <td>
             <?php 
-            if ($row['request_status'] == "cancelled" || $row['request_status'] == "rejected") {
+            if ($row['request_status'] == "canceled" || $row['request_status'] == "rejected") {
 
             }
             else { ?>
@@ -226,29 +221,32 @@ $results = mysqli_query($db, "SELECT * FROM item_request WHERE requested_by='$re
 </div>
 </div>
 
-  <div id="modal" class="w3-modal">
-                  <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+  	<div id="modal" class="w3-modal">
+	  <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
 
-                    <div class="w3-center">
-                     <header class="w3-container w3-yellow w3-padding"> 
-                      <h2 class="w3-center"><b>Remarks<b></h2>
-                    </header>
-                  </div>
+	    <div class="w3-center">
+	     <header class="w3-container w3-yellow w3-padding"> 
+	      <h2 class="w3-center"><b>Remarks<b></h2>
+	    </header>
+	  </div>
 
-                  <form method="post" class="w3-container" action="request_server.php">
-                    <div class="w3-section">
-                    <input type="hidden" name="id" value="<?php echo $id ?>">
-                    <input class="w3-input w3-border w3-margin-bottom" style="height:150px" name="message_body" placeholder="Remarks" required>
-                        <input type="hidden" name="request_fulfilled" value="0">
-                        <input type="hidden" name="request_status" value="cancelled">
-                      <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit" name="cancel">Cancel Request</button>
-                    </div>
-                  </form>
-                  <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-                     <form action="request_repair.php">
-                      <button onclick="document.getElementById('modal').style.display='none'" type="submit" class="w3-button w3-red">Cancel</button>
-                    </form></div>
-                </div>
+	  <form method="post" class="w3-container" action="request_server.php">
+	    <div class="w3-section">
+	    <input type="hidden" name="id" value="<?php echo $id ?>">
+	    <input class="w3-input w3-border w3-margin-bottom" style="height:150px" name="message_body" placeholder="Remarks" required>
+	        <input type="hidden" name="request_fulfilled" value="0">
+	        <input type="hidden" name="request_status" value="canceled">
+	        <input type="hidden" name="requested_quantity" value="<?php echo $requested_quantity; ?>">
+	        <input type="hidden" name="inventory_id" value="<?php echo $inventory_id; ?>">
+	      <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit" name="cancel">Cancel Request</button>
+	    </div>
+	  </form>
+	  <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+	     <form action="request_repair.php">
+	      <button onclick="document.getElementById('modal').style.display='none'" type="submit" class="w3-button w3-red">Cancel</button>
+	    </form>
+	</div>
+	</div>
 
 
 

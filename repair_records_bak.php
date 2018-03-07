@@ -12,7 +12,7 @@ $is_printed_empty=0;
 $pending = "pending";
 $approved = "approved";
 $rejected = "rejected";
-$canceled = "canceled";
+$cancelled = "cancelled";
 ?>
 <!DOCTYPE html>
 <html>
@@ -267,11 +267,11 @@ $canceled = "canceled";
               </table>  
 
               <?php
-              $results = mysqli_query($db, "SELECT * FROM item_request WHERE request_status = '$canceled' "); 
+              $results = mysqli_query($db, "SELECT * FROM item_request WHERE request_status = '$cancelled' "); 
               ($count = mysqli_num_rows($results));
               if ($count!=0){ 
                 ?>
-                <h2 style="color: red;">Canceled Repairs</h2>
+                <h2 style="color: red;">Cancelled Repairs</h2>
                 <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-margin-bottom">
                   <thead>
                     <div>
@@ -294,7 +294,7 @@ $canceled = "canceled";
                     <thead>
                       <div>
                         <tr>
-                          <?php if ($row['request_status']=="canceled") {?>
+                          <?php if ($row['request_status']=="cancelled") {?>
                           <td><?php echo $row['id']; ?></td>
                           <td><?php echo $row['item_name']; ?></td>
                           <td><?php echo $row['requested_by'];  ?></td>
@@ -304,7 +304,7 @@ $canceled = "canceled";
                           <td><?php echo $row['request_status']; ?></td>
                           <td><?php echo $row['request_remark']; ?></td>
                           <td>
-                              <a href="request_server.php?del=<?php echo $row['id']; ?>" class="del_btn"><i class="fa fa-trash"></i></a>
+                          	<a href="request_server.php?del=<?php echo $row['id']; ?>" class="del_btn"><i class="fa fa-trash"></i></a>
                           </td>
                           <?php } ?>
                         </tr>   
@@ -362,7 +362,7 @@ $canceled = "canceled";
                    </form>
                    <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
                     <form action="repair_records.php">
-                      <button onclick="document.getElementById('modal').style.display='none'" type="submit" class="w3-button w3-block w3-red">Cancel</button>
+                      <button onclick="document.getElementById('modal').style.display='none'" type="submit" class="w3-button w3-red">Cancel</button>
                     </form>
                   </div>
                 </div>

@@ -84,19 +84,15 @@ $db = mysqli_connect('localhost', 'root', '', 'ppdo_iams');
 
 </head>
 <body class="text-center">
-  <div class="container">
-   <ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#sign_in">Sign_in</a></li>
-    <li><a data-toggle="tab" href="#sign_up">Register</a></li>
-  </ul>
+ 
   <div class="tab-content">
     <div id="sign_in" class="tab-pane fade in active">
       <br />
       <img class="mb-4" src="css/img/inv/logo.png" alt="" width="72" height="72">
       <h1 class="system_title">PPDO-INVENTORY ARCHIVE MAINTENANCE SYSTEM</h1>
-      <form method="post" class="form-signin" action="user_login.php">
+      <form method="post" class="form-signin" action="index.php">
         <?php include('include/user_errors.php'); ?>
-        <h1 class="h3 mb-3 font-weight-normal">Sign in here</h1>
+
         <label for="loginUname" class="sr-only">Username</label>
         <div class="input-group">
           <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -107,64 +103,12 @@ $db = mysqli_connect('localhost', 'root', '', 'ppdo_iams');
          <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
          <input type="password" id="inputPassword" class="form-control" placeholder="Enter Password" name="password" required></div>
          <div class="checkbox mb-3">
-          <label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
+        
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit" name="login_user" value="LOGIN">Sign in</button>
-        <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+        <p class="mt-5 mb-3 text-muted">&copy; 4-Bit 2017-2018</p>
       </form>
     </div>
-
-    <div id="sign_up" class="tab-pane fade">
-      <form method="post" action="user_register.php" class="form-signup">
-       <?php include('include/user_errors.php'); ?>
-       <img class="mb-4" src="css/img/inv/logo.png" alt="" width="72" height="72">
-       <h1>Registration</h1>
-       <h1 class="h3 mb-3 font-weight-normal">Basic Information</h1>
-       <label for="inputFname" class="sr-only">Firstname:</label>
-       <div class="input-group">
-        <input type="text" name="firstname" id="inputFname" class="form-control" placeholder="Firstname" required autofocus>
-      </div>
-      <label for="inputLname" class="sr-only">Lastname:</label>
-      <div class="input-group">
-        <input type="text" name="lastname" id="inputLname" class="form-control" placeholder="Lastname" required autofocus>
-      </div>
-
-      <label for="inputUname" class="sr-only">Username</label>
-      <div class="input-group">
-       <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-       <input type="text" name="username" id="inputUname" class="form-control" placeholder="Enter Username" required autofocus>
-     </div>
-
-     <label for="inputEmail" class="sr-only">Email:</label>
-     <div class="input-group">
-       <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-       <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
-     </div>
-     <label for="inputPassword" class="sr-only">Password</label>
-     <div class="input-group">
-      <input type="password" id="inputPassword" class="form-control" placeholder="Enter Password" name="password" required></div>
-      <div class="input-group">
-       <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-       <input type="password" id="inputCnfPassword" class="form-control" placeholder="Confirm Password" name="password" required></div>
-       <br />
-       <div class="input-group">
-        <input type="radio" id="male" name="sex" value="Male" checked="checked" >
-        <label for="male">Male</label>
-        <input type="radio" id="female" name="sex" value="Female">
-        <label for="female">Female</label>
-      </div>
-      <div class="checkbox mb-3">
-        <label>
-          <input type="checkbox" value="remember-me"> I agree with the Terms and Conditions
-        </label>
-      </div>
-      <button class="btn btn-lg btn-primary btn-block" type="submit" name="login_user" value="LOGIN">Sign up</button>                                                                    
-      <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
-
-    </form>
-
 
   </div>
 </div>

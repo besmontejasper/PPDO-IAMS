@@ -6,18 +6,38 @@
   $db = mysqli_connect('localhost', 'root', '', 'ppdo_iams');
   include('include/user_check.php');
   include('include/user_inaccessible.php');
+  $critical_count = 0;
+
+  // Data analytics for Messages
+  $message_query = mysqli_query($db, "SELECT * FROM messaging_admin WHERE unread=1");
+  $message_count = mysqli_num_rows($message_query);
+
+  // Data analytics for Job Orders
+  $completed = "completed";
+  $jo_query = mysqli_query($db, "SELECT * FROM job_order WHERE status!='$completed'");
+  $jo_count = mysqli_num_rows($jo_query);
 
   // Data analytics for Repairs
-  $cancelled = "cancelled";
-  $repair_query = mysqli_query($db, "SELECT * FROM item_request WHERE request_status != '$cancelled'");
+  $pending = "pending";
+  $repair_query = mysqli_query($db, "SELECT * FROM item_request WHERE request_status = '$pending'");
   $repair_count = mysqli_num_rows($repair_query);
+
+  // Data analytics for Critical Level of Stock
+  $critical_query = mysqli_query($db, "SELECT * FROM item_inventory");
+  while ($critical_row = (mysqli_fetch_array($critical_query))) { 
+    $item_quantity = $critical_row['item_quantity'];
+    $critical_stock = $critical_row['critical_stock'];
+    if ($item_quantity <= $critical_stock) {
+      $critical_count++;
+    }
+  }
 ?>
 <!DOCTYPE html>
 <html>
 <title>Electronic Inventory System</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+ <link rel="stylesheet" type="text/css" href="css/w3schools.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" type="text/css" href="css/fab_admin.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -35,6 +55,7 @@ ul {list-style-type: none;}
     <span class="w3-bar-item w3-margin-left"><img src="css/img/inv/dashboard_logo.png"></span>
     <span class="w3-bar-item w3-right" style="font-weight: bold; color: white; font-size: 30px;">DASHBOARD</span>
   </div>
+
 
   <!-- Sidebar/menu -->
   <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
@@ -65,10 +86,18 @@ ul {list-style-type: none;}
     </div>
     <div class="w3-bar-block">
       <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
-
-      <a href="inventory.php" class="w3-bar-item w3-button w3-padding w3-hover-yellow"><i class="fa fa-list"></i>  Inventory</a>
-    <a href="repair_records.php" class="w3-bar-item w3-button w3-padding w3-hover-yellow"><i class="fa fa-wrench fa-fw"></i>  Repair Records</a>
-  </div>
+      
+      <div class="w3-bar-item w3-button w3-hover-indigo" onclick="myAccFunc()"><i class="fa fa-envelope"></i>
+         Messaging <i class="fa fa-caret-down"></i></div>
+       <div id="demoAcc" class="w3-hide w3-white w3-card-4">
+         <a href="messaging_admin.php" class="w3-bar-item w3-button w3-hover-deep-orange"><i class="fa fa-inbox w3-margin-right"></i>Inbox<i class="fa fa-caret-right w3-margin-left"></i></a>
+         <a href="messaging_sent_admin.php" class="w3-bar-item w3-button w3-hover-green"><i class="fa fa-paper-plane w3-margin-right"></i>Sent</a>
+         <a href="messaging_trash_admin.php" class="w3-bar-item w3-button w3-hover-red"><i class="fa fa-trash w3-margin-right"></i>Trash</a>
+       </div>
+       <a href="inventory.php" class="w3-bar-item w3-button w3-padding w3-hover-indigo"><i class="fa fa-list w3-large"></i>  Inventory</a>
+       <a href="repair_records.php" class="w3-bar-item w3-button w3-padding w3-hover-indigo"><i class="fa fa-wrench fa-fw w3-large"></i> Repair Records</a>
+       <a href="job_order.php" class="w3-bar-item w3-button w3-padding w3-hover-indigo"><i class="fa fa-cubes w3-large"></i>  Job Orders</a>
+     </div>
 </nav>
 
 
@@ -89,20 +118,30 @@ ul {list-style-type: none;}
       <div class="w3-container w3-red w3-padding-16">
         <div class="w3-left"><i class="fa fa-comments w3-xxxlarge"></i></div>
         <div class="w3-right">
-          <h3>52</h3>
+          <h3>
+            <?php 
+              echo $message_count;
+            ?>
+          </h3>
         </div>
         <div class="w3-clear"></div>
-        <h4>Request Service</h4>
+        <h4>Unread Messages</h4>
       </div>
     </div>
+
+
     <div class="w3-quarter">
       <div class="w3-container w3-teal w3-padding-16">
         <div class="w3-left"><i class="fa fa-list w3-xxxlarge"></i></div>
         <div class="w3-right">
-          <h3>23</h3>
+          <h3>
+            <?php
+              echo $jo_count;
+            ?>
+          </h3>
         </div>
         <div class="w3-clear"></div>
-        <h4>Inventory</h4>
+        <h4>Pending Job Orders</h4>
       </div>
     </div>
     <div class="w3-quarter">
@@ -111,22 +150,31 @@ ul {list-style-type: none;}
         <div class="w3-right">
           <h3>
             <?php 
-            echo $repair_count;
+            if ($repair_count != 0) {
+              echo $repair_count;  
+            }
+            else {
+              echo "0";
+            }
             ?>
           </h3>
         </div>
         <div class="w3-clear"></div>
-        <h4>Repairs</h4>
+        <h4>Pending Repairs</h4>
       </div>
     </div>
     <div class="w3-quarter">
       <div class="w3-container w3-blue w3-text-white w3-padding-16">
         <div class="w3-left"><i class="fa fa-shopping-cart w3-xxxlarge"></i></div>
         <div class="w3-right">
-          <h3>50</h3>
+          <h3>
+            <?php 
+              echo $critical_count;
+            ?>
+          </h3>
         </div>
         <div class="w3-clear"></div>
-        <h4>No. of Stocks</h4>
+        <h4>Critical Stocks</h4>
       </div>
     </div>
   </div>
@@ -158,7 +206,7 @@ ul {list-style-type: none;}
               <?php } ?>
             </table><br>
             <br>
-            <a href="inventory.php"><button class="w3-button w3-black w3-hover-yellow" style="transition-duration: 0.3s;">More   <i class="fa fa-arrow-right"></i></button></a>
+            <a href="inventory.php"><button class="w3-button w3-black w3-hover-indigo" style="transition-duration: 0.3s;">More   <i class="fa fa-arrow-right"></i></button></a>
           </div>
           <hr>
           <div class="w3-container">
@@ -189,7 +237,7 @@ ul {list-style-type: none;}
 
 
         <!-- End page content -->
-        </div>
+<!--         </div>
 
         <div id="container-floating">
           <div class="nd1 nds" data-toggle="tooltip" data-placement="left" data-original-title="settings">
@@ -206,7 +254,7 @@ ul {list-style-type: none;}
           <p class="plus"><i class="fa fa-user"></i></p>
           <img class="edit" src="https://ssl.gstatic.com/bt/C3341AA7A1A076756462EE2E5CD71C11/1x/bt_compose2_1x.png">
         </div>
-      </div>
+      </div> -->
 
       <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -261,7 +309,34 @@ function w3_close() {
 </script>
 
 
-// script for floating notification
+<!-- Script for accordion Tabs-->
+<script>
+  function myAccFunc() {
+    var x = document.getElementById("demoAcc");
+    if (x.className.indexOf("w3-show") == -1) {
+      x.className += " w3-show";
+      x.previousElementSibling.className += " w3-indigo";
+    } else { 
+      x.className = x.className.replace(" w3-show", "");
+      x.previousElementSibling.className = 
+      x.previousElementSibling.className.replace(" w3-indigo", "");
+    }
+  }
+
+  function myDropFunc() {
+    var x = document.getElementById("demoDrop");
+    if (x.className.indexOf("w3-show") == -1) {
+      x.className += " w3-show";
+      x.previousElementSibling.className += " w3-indigo";
+    } else { 
+      x.className = x.className.replace(" w3-show", "");
+      x.previousElementSibling.className = 
+      x.previousElementSibling.className.replace(" w3-indigo", "");
+    }
+  }
+</script>
+
+ <!-- script for floating notification -->
 <script type="text/javascript">
   var n=0;
   function increaseNumber(){

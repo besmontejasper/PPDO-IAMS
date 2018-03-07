@@ -2,7 +2,7 @@
 	$db = mysqli_connect('localhost', 'root', '', 'ppdo_iams');
 
 
-	if (isset($_POST['send'])) {
+	if (isset($_POST['send_admin'])) {
 		$message_subject = $_POST['message_subject'];
 		$message_recipient = $_POST['message_recipient'];
 		$message_body = $_POST['message_body'];
@@ -15,7 +15,8 @@
 		
 		$admin_sent=1;
 		$message_inbox=1;
-		$insert = mysqli_query($db, "INSERT INTO messaging (user_sender, user_name, message_subject, message_body, date_sent, message_inbox, message_recipient) VALUES ('$user_sender', '$user_name', '$message_subject', '$message_body', '$date_sent', '$message_inbox', '$message_recipient')");
+		$unread = 1;
+		$insert = mysqli_query($db, "INSERT INTO messaging (user_sender, user_name, message_subject, message_body, date_sent, message_inbox, message_recipient, unread) VALUES ('$user_sender', '$user_name', '$message_subject', '$message_body', '$date_sent', '$message_inbox', '$message_recipient', '$unread')");
 		$insert = mysqli_query($db, "INSERT INTO messaging_admin (user_sender, user_name, message_subject, message_body, message_recipient, date_sent, admin_sent) VALUES ('$user_sender', '$user_name', '$message_subject', '$message_body', '$message_recipient', '$date_sent', '$admin_sent') ");
 		header('location: messaging_admin.php');
 	}

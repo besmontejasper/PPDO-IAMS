@@ -9,6 +9,7 @@
 	$date_modified = "";
 	$critical_stock = "";
 	$unit = "";
+	$file = "";
 	$id = 0;
 	$update = false;
 
@@ -67,4 +68,70 @@
 		$_SESSION['message'] = "Item deleted!"; 
 		header('location: inventory.php');
 	}	
+
+	if (isset($_POST['file_submit'])) {
+		if ($_FILES['csv_file']['error'] === UPLOAD_ERR_OK) { 
+			$file = realpath($_FILES["csv_file"]["tmp_name"]);
+			$file = str_replace ("\\", "/", $file);
+
+			$query = " LOAD DATA LOCAL INFILE '".$file."' " .
+	        " INTO TABLE item_inventory" .
+	        " CHARACTER SET UTF8" .
+	        " FIELDS TERMINATED BY ',' " .
+	        " OPTIONALLY ENCLOSED BY '\"' " .
+	        " LINES TERMINATED BY '\\r\\n' " .
+	        " IGNORE 1 LINES " .
+	        " (item_name,item_quantity,critical_stock,item_tag,item_cost,unit,@var1)" .
+	        " SET id = NULL, date_modified = STR_TO_DATE(@var1,'%m/%d/%Y')";
+
+			echo $query;
+			$result = mysqli_query($db, $query);
+
+		} 
+		else { 
+			throw new UploadException($_FILES['csv_file']['error']); 
+		} 
+		
+		header('location: inventory.php');
+	}
+
+	class UploadException extends Exception 
+	{ 
+    public function __construct($code) { 
+        $message = $this->codeToMessage($code); 
+        parent::__construct($message, $code); 
+    } 
+
+    private function codeToMessage($code) 
+    { 
+        switch ($code) { 
+            case UPLOAD_ERR_INI_SIZE: 
+                $message = "The uploaded file exceeds the upload_max_filesize directive in php.ini"; 
+                break; 
+            case UPLOAD_ERR_FORM_SIZE: 
+                $message = "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form"; 
+                break; 
+            case UPLOAD_ERR_PARTIAL: 
+                $message = "The uploaded file was only partially uploaded"; 
+                break; 
+            case UPLOAD_ERR_NO_FILE: 
+                $message = "No file was uploaded"; 
+                break; 
+            case UPLOAD_ERR_NO_TMP_DIR: 
+                $message = "Missing a temporary folder"; 
+                break; 
+            case UPLOAD_ERR_CANT_WRITE: 
+                $message = "Failed to write file to disk"; 
+                break; 
+            case UPLOAD_ERR_EXTENSION: 
+                $message = "File upload stopped by extension"; 
+                break; 
+
+            default: 
+                $message = "Unknown upload error"; 
+                break; 
+        } 
+        return $message; 
+    } 
+} 
 ?>

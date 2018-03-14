@@ -11,6 +11,7 @@
   right: 30px;
   cursor: pointer;
   box-shadow: 0px 2px 5px #666;
+
 }
 
 .plus{
@@ -45,11 +46,6 @@
   height: 400px;
   width: 90px;
   padding: 30px;
-}
-
-#container-floating:hover .plus{
-  animation: plus-in 0.15s linear;
-  animation-fill-mode: forwards;
 }
 
 .edit{
@@ -171,7 +167,7 @@
   text-decoration: none;
   visibility: hidden;
   opacity: 0;
-  padding: 1px 12px;
+  padding: 6px 12px;
   margin-right: 12px;
   position: absolute;
   transform: scale(0);
@@ -353,6 +349,12 @@ td, th {
   font-size: 18px;
 }
 
+@media print {
+  #floating-button {
+    display: none;
+  }
+}
+
 
 /* 
 Max width before this PARTICULAR table gets nasty
@@ -370,7 +372,7 @@ only screen and (max-width: 760px),
   table {
     margin-left: auto!important;
     margin-right: auto!important;
-    margin-top:100px;
+    margin-top:0 auto;
   }
 
   /* Force table to not be like tables anymore */
@@ -415,11 +417,15 @@ only screen and (max-width: 760px),
     /*
     Label the data
     */
-    td:nth-of-type(1):before { content: "Reservation No"; }
-    td:nth-of-type(2):before { content: "Event Name"; }
-    td:nth-of-type(3):before { content: "Customer Name"; }
-    td:nth-of-type(4):before { content: "Date and Time"; }
-    td:nth-of-type(5):before { content: " Actions"; }
+    td:nth-of-type(1):before { content: " Item Name"; }
+    td:nth-of-type(2):before { content: " Stock"; }
+    td:nth-of-type(3):before { content: " Unit"; }
+    td:nth-of-type(4):before { content: " Critical Level"; }
+    td:nth-of-type(5):before { content: " Tag"; }
+    td:nth-of-type(6):before { content: " Price per unit"; }
+    td:nth-of-type(7):before { content: " Total Price"; }
+    td:nth-of-type(8):before { content: " Date Modified "; }
+    td:nth-of-type(9):before { content: " Actions"; }
 
     .w3-table > thead:nth-child(1) > tr:nth-child(1) {
       display: none!important;
@@ -436,36 +442,102 @@ only screen and (max-width: 760px),
 
   }
 
-.fileUpload {
-    position: relative;
-    overflow: hidden;
-    margin: 10px;
-}
-.fileUpload input.upload {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
-    cursor: pointer;
-    opacity: 0;
-    filter: alpha(opacity=0);
+
+  /*Wattage Form U.I. */
+  /* Style the form */
+#regForm {
+  margin: 0 auto;
+  padding: 30px;
+  width: auto;
+  min-width: 300px;
 }
 
-.fileSubmit {
-    position: relative;
-    overflow: hidden;
-    margin: 10px;
+/* Style the input fields */
+input, select {
+  padding: 10px;
+  width: 100%;
+  font-size: 17px;
+  font-family: Raleway;
+  border: 1px solid #aaaaaa;
 }
-.fileSubmit input.submit {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 0;
-    padding: 0;
+
+/* Mark input boxes that gets an error on validation: */
+input.invalid {
+  background-color: #ffdddd;
+}
+
+/* Hide all steps by default: */
+.tab {
+  display: none;
+}
+
+/* Make circles that indicate the steps of the form: */
+.step {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: white;
+  border: none; 
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.5;
+}
+
+/* Mark the active step: */
+.step.active {
+  opacity: 1;
+}
+
+/* Mark the steps that are finished and valid: */
+.step.finish {
+  background-color: white;
+}
+
+
+/* Side Navs */
+#mySidenav a {
+    margin-top: 40px;
+    position: fixed;
+    right:  -85px;
+    transition: 0.3s;
+    padding: 15px;
+    width: 100px;
+    text-decoration: none;
     font-size: 20px;
-    cursor: pointer;
-    opacity: 0;
-    filter: alpha(opacity=0);
+    color: white;
+    border-radius: 0 5px 5px 0;
+}
+
+#mySidenav a:hover {
+    right:  0;
+}
+
+#sngah {
+    top: 20px;
+    background-color: #24305E;
+}
+
+#ob {
+    top: 80px;
+    background-color: #374785;
+}
+
+#rndb {
+    top: 140px;
+    background-color: #5085a5;
+}
+
+#mab {
+    top: 200px;
+    background-color: #e85a4f;
+}
+
+#itb {
+    top: 260px;
+    background-color: #d79922;
+}
+
+#itc{
+    top: 320px;
+    background-color: #123c69
 }

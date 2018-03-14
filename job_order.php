@@ -104,7 +104,20 @@ if (isset($_GET['del'])) {
     <div class="w3-bar-block">
       <a href="dashboard_admin.php" class="w3-bar-item w3-button w3-padding w3-hover-none w3-indigo w3-hover-text-indigo" style="font-size: 20px; transition-duration: 0.3s;">Dashboard</a>
       <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
-      <a href="javascript:void(0)" class="w3-bar-item w3-button w3-dark-grey w3-button w3-hover-black w3-left-align" onclick="document.getElementById('id01').style.display='block'" style="transition-duration: 0.3s;">Add Job Order <i class="w3-padding fa fa-plus-square"></i></a>
+     <div class="w3-bar-item w3-button w3-hover-white" onclick="myInvFunc()">
+          <h5 class="w3-hover-text-indigo" style="font-size: 20px;"><i class="fa fa-cubes"></i>&nbsp;Job Orders&nbsp;<i class="fa fa-caret-down"></i></h5></div>
+        <div id="invAcc" class="w3-hide w3-white w3-card-4">
+         <a href="javascript:void(0)" class="w3-bar-item w3-button w3-dark-grey w3-button w3-hover-black w3-left-align" onclick="document.getElementById('id01').style.display='block'" style="transition-duration: 0.3s;">Add Job Order <i class="w3-padding fa fa-plus-square"></i></a></div>
+      <div class="w3-bar-item w3-button w3-hover-indigo" onclick="myAccFunc()"><i class="fa fa-envelope"></i>&nbsp;Messaging <i class="fa fa-caret-down"></i></div>
+       <div id="demoAcc" class="w3-hide w3-white w3-card-4">
+         <a href="messaging_admin.php" class="w3-bar-item w3-button w3-hover-deep-orange"><i class="fa fa-inbox w3-margin-right"></i>Inbox<i class="fa fa-caret-right w3-margin-left"></i></a>
+         <a href="messaging_sent_admin.php" class="w3-bar-item w3-button w3-hover-green"><i class="fa fa-paper-plane w3-margin-right"></i>Sent</a>
+         <a href="messaging_trash_admin.php" class="w3-bar-item w3-button w3-hover-red"><i class="fa fa-trash w3-margin-right"></i>Trash</a>
+       </div>
+       <a href="inventory.php" class="w3-bar-item w3-button w3-padding w3-hover-indigo"><i class="fa fa-list w3-large"></i>&nbsp;Inventory</a>
+       <a href="repair_records.php" class="w3-bar-item w3-button w3-padding w3-hover-indigo"><i class="fa fa-wrench fa-fw w3-large"></i> Repair Records</a>
+      <a href="wattage_compute.php?building_name=SNGAH" class="w3-bar-item w3-button w3-padding w3-hover-indigo"><i class="fa fa-plug w3-large"></i>&nbsp;Wattage Consumption</a>
+
     </div>
   </div>
 </nav>
@@ -346,6 +359,65 @@ function w3_close() {
 function edit_modal() {
   document.getElementById('id01').style.display='block';
 }
+</script>
+
+<!-- Script for accordion Tabs-->
+<script>
+  function myAccFunc() {
+    var x = document.getElementById("demoAcc");
+    if (x.className.indexOf("w3-show") == -1) {
+      x.className += " w3-show";
+      x.previousElementSibling.className += " w3-indigo";
+    } else { 
+      x.className = x.className.replace(" w3-show", "");
+      x.previousElementSibling.className = 
+      x.previousElementSibling.className.replace(" w3-indigo", "");
+    }
+  }
+
+  function myDropFunc() {
+    var x = document.getElementById("demoDrop");
+    if (x.className.indexOf("w3-show") == -1) {
+      x.className += " w3-show";
+      x.previousElementSibling.className += " w3-indigo";
+    } else { 
+      x.className = x.className.replace(" w3-show", "");
+      x.previousElementSibling.className = 
+      x.previousElementSibling.className.replace(" w3-indigo", "");
+    }
+  }
+</script>
+
+<!-- Script for job order accordion-->
+<script>
+  function myInvFunc() {
+    var x = document.getElementById("invAcc");
+    if (x.className.indexOf("w3-show") == -1) {
+      x.className += " w3-show";
+      x.previousElementSibling.className += " w3-text-indigo";
+    } else { 
+      x.className = x.className.replace(" w3-show", "");
+      x.previousElementSibling.className = 
+      x.previousElementSibling.className.replace(" w3-text-indigo", "");
+    }
+  }
+
+  function myDropFunc() {
+    var x = document.getElementById("demoDrop");
+    if (x.className.indexOf("w3-show") == -1) {
+      x.className += " w3-show";
+      x.previousElementSibling.className += " w3-text-black";
+    } else { 
+      x.className = x.className.replace(" w3-show", "");
+      x.previousElementSibling.className = 
+      x.previousElementSibling.className.replace(" w3-text-indigo", "");
+    }
+  }
+
+
+  function edit_modal() {
+    document.getElementById('modal').style.display='block';
+  }
 </script>
 
 

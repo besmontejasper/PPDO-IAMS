@@ -99,8 +99,18 @@ $canceled = "canceled";
   <div class="w3-bar-block">
     <a href="dashboard_admin.php" class="w3-bar-item w3-button w3-padding w3-hover-none w3-indigo w3-hover-text-indigo" style="font-size: 20px; transition-duration: 0.3s;">Dashboard</a>
     <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
-    <h5 class="w3-text-indigo w3-padding"><i class="fa fa-book fa-fw"></i>  Repair Records</a></h5>
-    <a href="inventory.php" class="w3-bar-item w3-button w3-padding w3-hover-indigo"><i class="fa fa-list"></i>  Inventory</a>
+    <div class="w3-container">
+          <h5 class="w3-text-indigo" style="font-size: 20px;">Repair Records</h5>
+        </div>
+    <div class="w3-bar-item w3-button w3-hover-indigo" onclick="myAccFunc()"><i class="fa fa-envelope"></i>&nbsp;Messaging <i class="fa fa-caret-down"></i></div>
+       <div id="demoAcc" class="w3-hide w3-white w3-card-4">
+         <a href="messaging_admin.php" class="w3-bar-item w3-button w3-hover-deep-orange"><i class="fa fa-inbox w3-margin-right"></i>Inbox<i class="fa fa-caret-right w3-margin-left"></i></a>
+         <a href="messaging_sent_admin.php" class="w3-bar-item w3-button w3-hover-green"><i class="fa fa-paper-plane w3-margin-right"></i>Sent</a>
+         <a href="messaging_trash_admin.php" class="w3-bar-item w3-button w3-hover-red"><i class="fa fa-trash w3-margin-right"></i>Trash</a>
+       </div>
+       <a href="inventory.php" class="w3-bar-item w3-button w3-padding w3-hover-indigo"><i class="fa fa-list w3-large"></i>&nbsp;Inventory</a>
+           <a href="job_order.php" class="w3-bar-item w3-button w3-padding w3-hover-indigo"><i class="fa fa-cubes w3-large"></i>&nbsp;Job Orders</a>
+       <a href="wattage_compute.php?building_name=SNGAH" class="w3-bar-item w3-button w3-padding w3-hover-indigo"><i class="fa fa-plug w3-large"></i>&nbsp;Wattage Consumption</a>
 
 
 
@@ -119,14 +129,14 @@ $canceled = "canceled";
 
  <div class="w3-container">
   <br>
-  <div class="w3-panel"><a class="w3-button w3-yellow w3-right w3-hover-amber" style="transition-duration: 0.3s;">Print All &nbsp;<i class="fa fa-print"></i></a></div>
+  <div class="w3-panel w3-center"><a href="repair_log.php?all" class="w3-button w3-yellow w3-hover-amber" style="transition-duration: 0.3s;" target="_blank">Print All &nbsp;<i class="fa fa-print"></i></a></div>
 
   <?php
   $results = mysqli_query($db, "SELECT * FROM item_request WHERE request_status = '$pending' "); 
   ($count = mysqli_num_rows($results));
   if ($count!=0){ 
     ?>
-    <h2 style="color: goldenrod;">Pending Repairs</h2>
+    <h2 style="color: goldenrod;">Pending Repairs<a href="repair_log.php?pending" class="w3-button w3-green w3-right w3-hover-teal" style="transition-duration: 0.3s; width: auto; height:auto; font-size: 16px;">Print&nbsp;<i class="fa fa-print"></i></a></h2>
     <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-margin-bottom">
       <thead>
         <div>
@@ -176,7 +186,9 @@ $canceled = "canceled";
       ($count = mysqli_num_rows($results));
       if ($count!=0){ 
         ?>
-        <h2 style="color: green;">Fulfilled Repairs</h2>
+        <br>
+        <h2 style="color: green;">Approved Repairs<a href="repair_log.php?approved" class="w3-button w3-green w3-right w3-hover-teal" style="transition-duration: 0.3s; width: auto; height:auto; font-size: 16px;">Print&nbsp;<i class="fa fa-print"></i></a></h2>
+        <!-- <a class="w3-button w3-green w3-right w3-hover-teal" style="transition-duration: 0.3s;">Print this &nbsp;<i class="fa fa-print"></i></a> -->
         <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
           <thead>
             <div>
@@ -224,7 +236,8 @@ $canceled = "canceled";
         ($count = mysqli_num_rows($results));
         if ($count!=0){ 
           ?>
-          <h2 style="color: crimson;">Rejected Repairs</h2>
+          <br>
+          <h2 style="color: crimson;">Rejected Repairs<a href="repair_log.php?rejected" class="w3-button w3-green w3-right w3-hover-teal" style="transition-duration: 0.3s; width: auto; height:auto; font-size: 16px;">Print&nbsp;<i class="fa fa-print"></i></a></h2>
           <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
             <thead>
               <div>
@@ -271,7 +284,8 @@ $canceled = "canceled";
               ($count = mysqli_num_rows($results));
               if ($count!=0){ 
                 ?>
-                <h2 style="color: red;">Canceled Repairs</h2>
+                <br>
+                <h2 style="color: red;">Canceled Repairs<a href="repair_log.php?canceled" class="w3-button w3-green w3-right w3-hover-teal" style="transition-duration: 0.3s; width: auto; height:auto; font-size: 16px;">Print&nbsp;<i class="fa fa-print"></i></a></h2>
                 <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-margin-bottom">
                   <thead>
                     <div>
@@ -397,6 +411,33 @@ function w3_close() {
 function remark() {
 	document.getElementById('modal').style.display='block';
 }
+</script>
+
+<!-- Script for accordion Tabs-->
+<script>
+  function myAccFunc() {
+    var x = document.getElementById("demoAcc");
+    if (x.className.indexOf("w3-show") == -1) {
+      x.className += " w3-show";
+      x.previousElementSibling.className += " w3-indigo";
+    } else { 
+      x.className = x.className.replace(" w3-show", "");
+      x.previousElementSibling.className = 
+      x.previousElementSibling.className.replace(" w3-indigo", "");
+    }
+  }
+
+  function myDropFunc() {
+    var x = document.getElementById("demoDrop");
+    if (x.className.indexOf("w3-show") == -1) {
+      x.className += " w3-show";
+      x.previousElementSibling.className += " w3-indigo";
+    } else { 
+      x.className = x.className.replace(" w3-show", "");
+      x.previousElementSibling.className = 
+      x.previousElementSibling.className.replace(" w3-indigo", "");
+    }
+  }
 </script>
 
 

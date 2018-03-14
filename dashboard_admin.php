@@ -22,6 +22,21 @@
   $repair_query = mysqli_query($db, "SELECT * FROM item_request WHERE request_status = '$pending'");
   $repair_count = mysqli_num_rows($repair_query);
 
+  // Data analytics for Repairs
+  $pending = "approved";
+  $repair_query = mysqli_query($db, "SELECT * FROM item_request WHERE request_status = '$pending'");
+  $repair_count_approved = mysqli_num_rows($repair_query);
+
+  // Data analytics for Repairs
+  $pending = "rejected";
+  $repair_query = mysqli_query($db, "SELECT * FROM item_request WHERE request_status = '$pending'");
+  $repair_count_rejected = mysqli_num_rows($repair_query);
+
+  // Data analytics for Repairs
+  $pending = "canceled";
+  $repair_query = mysqli_query($db, "SELECT * FROM item_request WHERE request_status = '$pending'");
+  $repair_count_canceled = mysqli_num_rows($repair_query);
+
   // Data analytics for Critical Level of Stock
   $critical_query = mysqli_query($db, "SELECT * FROM item_inventory");
   while ($critical_row = (mysqli_fetch_array($critical_query))) { 
@@ -30,7 +45,7 @@
     if ($item_quantity <= $critical_stock) {
       $critical_count++;
     }
-  }
+  }	   
 ?>
 <!DOCTYPE html>
 <html>
@@ -87,16 +102,16 @@ ul {list-style-type: none;}
     <div class="w3-bar-block">
       <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
       
-      <div class="w3-bar-item w3-button w3-hover-indigo" onclick="myAccFunc()"><i class="fa fa-envelope"></i>
-         Messaging <i class="fa fa-caret-down"></i></div>
+      <div class="w3-bar-item w3-button w3-hover-indigo" onclick="myAccFunc()"><i class="fa fa-envelope"></i>&nbsp;Messaging <i class="fa fa-caret-down"></i></div>
        <div id="demoAcc" class="w3-hide w3-white w3-card-4">
          <a href="messaging_admin.php" class="w3-bar-item w3-button w3-hover-deep-orange"><i class="fa fa-inbox w3-margin-right"></i>Inbox<i class="fa fa-caret-right w3-margin-left"></i></a>
          <a href="messaging_sent_admin.php" class="w3-bar-item w3-button w3-hover-green"><i class="fa fa-paper-plane w3-margin-right"></i>Sent</a>
          <a href="messaging_trash_admin.php" class="w3-bar-item w3-button w3-hover-red"><i class="fa fa-trash w3-margin-right"></i>Trash</a>
        </div>
-       <a href="inventory.php" class="w3-bar-item w3-button w3-padding w3-hover-indigo"><i class="fa fa-list w3-large"></i>  Inventory</a>
+       <a href="inventory.php" class="w3-bar-item w3-button w3-padding w3-hover-indigo"><i class="fa fa-list w3-large"></i>&nbsp;Inventory</a>
        <a href="repair_records.php" class="w3-bar-item w3-button w3-padding w3-hover-indigo"><i class="fa fa-wrench fa-fw w3-large"></i> Repair Records</a>
-       <a href="job_order.php" class="w3-bar-item w3-button w3-padding w3-hover-indigo"><i class="fa fa-cubes w3-large"></i>  Job Orders</a>
+       <a href="job_order.php" class="w3-bar-item w3-button w3-padding w3-hover-indigo"><i class="fa fa-cubes w3-large"></i>&nbsp;Job Orders</a>
+       <a href="wattage_compute.php?building_name=SNGAH" class="w3-bar-item w3-button w3-padding w3-hover-indigo"><i class="fa fa-plug w3-large"></i>&nbsp;Wattage Consumption</a>
      </div>
 </nav>
 
@@ -180,7 +195,6 @@ ul {list-style-type: none;}
   </div>
 
 
-
     <hr>
     <div class="w3-container">
       <h5><i class="fa fa-list" style="color: #0f49ac"></i>  Inventory</h5>
@@ -209,26 +223,7 @@ ul {list-style-type: none;}
             <a href="inventory.php"><button class="w3-button w3-black w3-hover-indigo" style="transition-duration: 0.3s;">More   <i class="fa fa-arrow-right"></i></button></a>
           </div>
           <hr>
-          <div class="w3-container">
-            <h5><i class="fa fa-area-chart fa-fw" style="color: #0f49ac"></i>General Stats</h5>
-            <p>Failed Repairs</p>
-            <div class="w3-grey">
-              <div class="w3-container w3-center w3-padding w3-green" style="width:25%">+25%</div>
-            </div>
 
-            <p>New Repairs</p>
-            <div class="w3-grey">
-              <div class="w3-container w3-center w3-padding w3-orange" style="width:50%">50%</div>
-            </div>
-
-            <p>Done Repairs</p>
-            <div class="w3-grey">
-              <div class="w3-container w3-center w3-padding w3-red" style="width:75%">75%</div>
-            </div>
-          </div>
-          <hr>
-
-          <hr>
           <div class="w3-container">
             <h5><i class="fa fa-industry fa-fw" style="color: #0f49ac"></i>Data Analytics</h5>
             <div id="piechart"></div>
@@ -236,27 +231,9 @@ ul {list-style-type: none;}
           <hr>
 
 
-        <!-- End page content -->
-<!--         </div>
+        
 
-        <div id="container-floating">
-          <div class="nd1 nds" data-toggle="tooltip" data-placement="left" data-original-title="settings">
-            <a href="index.php" class="letter" data-tooltip="Home"><i class="fa fa-home"></i></a>
-          </div>
-
-          <div class="nd3 nds" data-toggle="tooltip" data-placement="left" data-original-title="message">
-           <a href="messaging_admin.php" class="letter" data-tooltip="Compose"><i class="fa fa-envelope"></i></a>
-           <div id="box1"><p id="num1">0</p></div>
-         </div>
-
-         <div id="floating-button" data-toggle="tooltip" data-placement="left" data-original-title="Create" onclick="newmail()">
-          <div id="box"><p id="number">!</p></div>
-          <p class="plus"><i class="fa fa-user"></i></p>
-          <img class="edit" src="https://ssl.gstatic.com/bt/C3341AA7A1A076756462EE2E5CD71C11/1x/bt_compose2_1x.png">
-        </div>
-      </div> -->
-
-      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+      <script type="text/javascript" src="js/analytics.js"></script>
 
       <script type="text/javascript">
 // Load google charts
@@ -265,14 +242,20 @@ google.charts.setOnLoadCallback(drawChart);
 
 // Draw the chart and set the chart values
 function drawChart() {
-  var data = google.visualization.arrayToDataTable([
-    ['Task', 'Hours per Day'],
-    ['Repairs', 8],
-    ['Inventory', 2],
-    ['Maintenance', 4],
-    ['Sales', 2],
-    ['Losts', 8]
-    ]);
+	var pending_count = <?php echo htmlspecialchars($repair_count);?>;
+	var approved_count = <?php echo htmlspecialchars($repair_count_approved);?>;
+	var rejected_count = <?php echo htmlspecialchars($repair_count_rejected);?>;
+	var canceled_count = <?php echo htmlspecialchars($repair_count_canceled);?>;
+    var data = new google.visualization.DataTable();
+	data.addColumn('string', 'Request Status');
+	data.addColumn('number', 'Number of Request');
+    data.addRow(['Pending Requests', pending_count]);
+    data.addRow(['Approved Requests', approved_count]);
+    data.addRow(['Rejected Requests', rejected_count]);
+    data.addRow(['Canceled Requests', canceled_count]);
+
+	
+  	
 
   // Optional; add a title and set the width and height of the chart
   var options = {'title':'Electronic Inventory System Pie Chart', 'width':550, 'height':400};

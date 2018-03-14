@@ -87,7 +87,21 @@ if (isset($_GET['edit'])) {
 			<div class="w3-bar-block">
 				<a href="dashboard_admin.php" class="w3-bar-item w3-button w3-padding w3-hover-none w3-indigo w3-hover-text-indigo" style="font-size: 20px; transition-duration: 0.3s;">Dashboard</a>
 				<a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
-						<a href="javascript:void(0)" class="w3-bar-item w3-button w3-black w3-button w3-hover-red w3-left-align" onclick="document.getElementById('modal').style.display='block'" style="transition-duration: 0.3s;">Add Item<i class="w3-padding fa fa-plus-square"></i></a>
+				<div class="w3-bar-item w3-button w3-hover-white" onclick="myInvFunc()">
+					<h5 class="w3-hover-text-indigo" style="font-size: 20px;"><i class="fa fa-list"></i>&nbsp;Inventory&nbsp;<i class="fa fa-caret-down"></i></h5></div>
+					<div id="invAcc" class="w3-hide w3-white w3-card-4">
+						<a href="javascript:void(0)" class="w3-bar-item w3-button w3-black w3-button w3-hover-red w3-left-align" onclick="document.getElementById('modal').style.display='block'" style="transition-duration: 0.3s;">Add Single Item<i class="w3-padding fa fa-plus-square"></i></a>
+						<a href="javascript:void(0)" class="w3-bar-item w3-button w3-black w3-button w3-hover-red w3-left-align" onclick="document.getElementById('bulk_modal').style.display='block'" style="transition-duration: 0.3s;">Add Bulk Items<i class="w3-padding fa fa-plus-square"></i></a></div>
+						<div class="w3-bar-item w3-button w3-hover-indigo" onclick="myAccFunc()"><i class="fa fa-envelope"></i>&nbsp;Messaging <i class="fa fa-caret-down"></i></div>
+						<div id="demoAcc" class="w3-hide w3-white w3-card-4">
+							<a href="messaging_admin.php" class="w3-bar-item w3-button w3-hover-deep-orange"><i class="fa fa-inbox w3-margin-right"></i>Inbox<i class="fa fa-caret-right w3-margin-left"></i></a>
+							<a href="messaging_sent_admin.php" class="w3-bar-item w3-button w3-hover-green"><i class="fa fa-paper-plane w3-margin-right"></i>Sent</a>
+							<a href="messaging_trash_admin.php" class="w3-bar-item w3-button w3-hover-red"><i class="fa fa-trash w3-margin-right"></i>Trash</a>
+						</div>
+						<a href="repair_records.php" class="w3-bar-item w3-button w3-padding w3-hover-indigo"><i class="fa fa-wrench fa-fw w3-large"></i> Repair Records</a>
+						<a href="job_order.php" class="w3-bar-item w3-button w3-padding w3-hover-indigo"><i class="fa fa-cubes w3-large"></i>&nbsp;Job Orders</a>
+						<a href="wattage_compute.php?building_name=SNGAH" class="w3-bar-item w3-button w3-padding w3-hover-indigo"><i class="fa fa-plug w3-large"></i>&nbsp;Wattage Consumption</a>
+
 					</div>
 				</div>
 			</nav>
@@ -215,7 +229,7 @@ if (isset($_GET['edit'])) {
 							</div>
 						</form>
 						<form action = "inventory.php">			
-								<button onclick="document.getElementById('modal').style.display='none'" type="submit" class="w3-button w3-block w3-red">Cancel <i class="fa fa-remove"></i></button>
+							<button onclick="document.getElementById('modal').style.display='none'" type="submit" class="w3-button w3-block w3-red">Cancel <i class="fa fa-remove"></i></button>
 						</form>
 					</div>
 				</div>
@@ -223,6 +237,25 @@ if (isset($_GET['edit'])) {
 			<br>
 			<div class="w3-main" style="margin-left:300px;margin-top:43px;">
 				<div class="w3-container">
+					<div id="bulk_modal" class="w3-modal" style="z-index:4;">
+						<div class="w3-modal-content w3-animate-zoom w3-indigo" style="width: 500px;">
+							<form method="post" action="inv_server.php" enctype="multipart/form-data">
+								<h2 style="color: white;" class="w3-center">Insert Items in Bulk</h2>
+								<div class="w3-center">
+									<input id="uploadFile" placeholder="Choose File" disabled="disabled" />
+									<div class="fileUpload btn w3-button w3-green w3-hover-teal">
+										<span><i class="fa fa-upload"></i>&nbsp;&nbsp;Upload</span>
+										<input id="uploadBtn" type="file" class="upload" name="csv_file" />
+									</div>
+									<div class="fileSubmit btn w3-button w3-red w3-hover-pink">
+										<span><i class="fa fa-check"></i>&nbsp;&nbsp;Submit</span>
+										<input type="submit" name="file_submit" class=" submit">
+									</div>
+								</div>
+							</form>
+							<button onclick="document.getElementById('bulk_modal').style.display='none'" type="submit" class="w3-button w3-block w3-red">Cancel <i class="fa fa-remove"></i></button> 
+						</div>
+					</div>
 					<h2 style="color: crimson;">On-Stock Items</h2>
 					<table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
 						<thead>
@@ -259,29 +292,7 @@ if (isset($_GET['edit'])) {
 					</div>
 				</div>
 
-
-
-				<!--   End page content -->
-<!-- </div>
-
-<div id="container-floating">
-
-  <div class="nd1 nds" data-toggle="tooltip" data-placement="left" data-original-title="settings">
-      <a href="index.php" class="letter" data-tooltip="Home"><i class="fa fa-home"></i></a>
-  </div>
-
-  <div class="nd3 nds" data-toggle="tooltip" data-placement="left" data-original-title="message">
-         <a href="messaging_admin.php" class="letter" data-tooltip="Compose"><i class="fa fa-envelope"></i></a>
-  </div>
-
-  <div id="floating-button" data-toggle="tooltip" data-placement="left" data-original-title="Create" onclick="newmail()">
-    <p class="plus"><i class="fa fa-user"></i></p>
-    <img class="edit" src="https://ssl.gstatic.com/bt/C3341AA7A1A076756462EE2E5CD71C11/1x/bt_compose2_1x.png">
-  </div>
-
-</div> -->
-
-<script>
+				<script>
 // Get the Sidebar
 var mySidebar = document.getElementById("mySidebar");
 
@@ -336,6 +347,44 @@ function w3_close() {
 	function edit_modal() {
 		document.getElementById('modal').style.display='block';
 	}
+</script>
+
+<!-- Script for inventory accordion-->
+<script>
+	function myInvFunc() {
+		var x = document.getElementById("invAcc");
+		if (x.className.indexOf("w3-show") == -1) {
+			x.className += " w3-show";
+			x.previousElementSibling.className += " w3-text-indigo";
+		} else { 
+			x.className = x.className.replace(" w3-show", "");
+			x.previousElementSibling.className = 
+			x.previousElementSibling.className.replace(" w3-text-indigo", "");
+		}
+	}
+
+	function myDropFunc() {
+		var x = document.getElementById("demoDrop");
+		if (x.className.indexOf("w3-show") == -1) {
+			x.className += " w3-show";
+			x.previousElementSibling.className += " w3-text-black";
+		} else { 
+			x.className = x.className.replace(" w3-show", "");
+			x.previousElementSibling.className = 
+			x.previousElementSibling.className.replace(" w3-text-indigo", "");
+		}
+	}
+
+
+	function edit_modal() {
+		document.getElementById('modal').style.display='block';
+	}
+</script>
+
+<script type="text/javascript">
+	document.getElementById("uploadBtn").onchange = function () {
+		document.getElementById("uploadFile").value = this.value;
+	};
 </script>
 
 </body>

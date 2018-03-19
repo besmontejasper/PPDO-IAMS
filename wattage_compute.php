@@ -177,348 +177,112 @@ if (isset($_GET['delete'])) {
 		else if ($_GET['building_name'] == "ITC") {
 			$building_name = "ITC";
 		}
- 			$Ground_Floor = "G-Floor";
- 			$First_Floor = "1st Floor";
- 			$Second_Floor = "2nd Floor";
- 			$Third_Floor = "3rd Floor";
- 			$Fourth_Floor = "4th Floor";
- 			$Fifth_Floor = "5th Floor";
  			$row_wattage = 0;
  			$total_wattage_for_building = 0;
  			$results = mysqli_query($db, "SELECT * FROM watt_computation WHERE building_name = '$building_name' "); 
- 			$results_gfloor = mysqli_query($db, "SELECT * FROM watt_computation WHERE building_name = '$building_name' AND building_floor='$Ground_Floor' ");
-			$results_1floor = mysqli_query($db, "SELECT * FROM watt_computation WHERE building_name = '$building_name' AND building_floor='$First_Floor' ");
-			$results_2floor = mysqli_query($db, "SELECT * FROM watt_computation WHERE building_name = '$building_name' AND building_floor='$Second_Floor' ");
-			$results_3floor = mysqli_query($db, "SELECT * FROM watt_computation WHERE building_name = '$building_name' AND building_floor='$Third_Floor' ");
-			$results_4floor = mysqli_query($db, "SELECT * FROM watt_computation WHERE building_name = '$building_name' AND building_floor='$Fourth_Floor' ");
-			$results_5floor = mysqli_query($db, "SELECT * FROM watt_computation WHERE building_name = '$building_name' AND building_floor='$Fifth_Floor' ");
+ 			$max_result = mysqli_query($db, "SELECT MAX(building_floor) as max_floor FROM watt_computation");
+ 			$max_row = mysqli_fetch_array($max_result);
+ 			$max_number = $max_row['max_floor'];
+
+			// Total Wattage Computation
 			while ($row = mysqli_fetch_array($results)){
 				$row_wattage = $row['qty'] * $row['watt'];
 				$total_wattage_for_building = $total_wattage_for_building + $row_wattage;
 			}
+
+
+			
+			// Checks if building is empty
 			($count = mysqli_num_rows($results));
-			($count_g = mysqli_num_rows($results_gfloor));
-			($count_1 = mysqli_num_rows($results_1floor));
-			($count_2 = mysqli_num_rows($results_2floor));
-			($count_3 = mysqli_num_rows($results_3floor));
-			($count_4 = mysqli_num_rows($results_4floor));
-			($count_5 = mysqli_num_rows($results_5floor));
-?>
-		  <h1><?php echo $building_name; ?></h1>
-		<h3>Total Wattage for Building: <?php echo $total_wattage_for_building; ?></h3>
-		  <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-margin-bottom">
-			      <thead>
-			        <div>
-			          <tr>
-			            <th>Room Number</th>
-			            <th>Quantity</th>
-			            <th>Appliance Name</th>
-			            <th>Wattage</th>
-			            <th>Total Wattage Per Device</th>
-			            <th>Actions</th>
-			          </tr> 
-			        </div>
-			      </thead>
-			         <h3>Ground Floor</h3>
-			      <?php 
-			      if ($count_g != 0) {
-				      while ($row = mysqli_fetch_array($results_gfloor)){
-				          ?>
-				          <thead>
-				            <div>
-				              <tr>
-				                <td><?php echo $row['room_number']; ?></td>
-				                <td><?php echo $row['qty']; ?></td>
-				                <td><?php echo $row['appliance_name'];  ?></td>
-				                <td><?php echo $row['watt']; ?></td>
-				                <td><?php echo $row['qty']*$row['watt']; ?></td>
-				                <td>
-				                  <a href="wattage_compute.php?building_name=<?php echo $building_name; ?>&edit=<?php echo $row['id']; ?>" class="edit_btn"><i class="fa fa-pencil-square"></i></a>&nbsp;
-				                  <a href="wattage_compute.php?delete=<?php echo $row['id']; ?>" class="del_btn"><i class="fa fa-trash"></i></a>&nbsp;
-			                	</td>	
-				                </tr>   
-				              </div>
-				            </thead>
-				        <?php
-				        }			        	
-			      }
-			      else {
-			      		?>
-			      	<thead>
-			      		<div>
-			      			<tr>
-			      				<td colspan="6">
-			      					<center><?php echo "No data for Ground Floor"; ?></center>
-			      				</td>
-			      			</tr>
-			      		</div>
-			      	</thead>
-		      	<?php
-			      }
-			      ?>
+			?>
+		
+			<h1><?php echo $building_name; ?></h1>
+			<h3>Total Wattage for Building: <?php echo $total_wattage_for_building; ?></h3>
+		
+			<?php
+			if ($count == 0) {
+				?>
+				<br>
+				<br>
+				<p><center>No data for this building</center></p>
+				<?php
+			}
+			else {
+				// Checks if floor is empty
+				for ($i=0; $i<=$max_number; $i++) {
+					${"result_$i"} = mysqli_query($db, "SELECT * FROM watt_computation WHERE building_name = '$building_name' AND building_floor='$i' ");
+					${"count_$i"} = mysqli_num_rows(${"result_$i"});
+				?>
+					  <?php 
+			  			if (${"count_$i"} != 0) {
+			      			while ($row = mysqli_fetch_array(${"result_$i"})){
+			          ?>
+					  <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-margin-bottom">
+						      <thead>
+						        <div>
+						          <tr>
+						            <th>Room Number</th>
+						            <th>Quantity</th>
+						            <th>Appliance Name</th>
+						            <th>Wattage</th>
+						            <th>Total Wattage Per Device</th>
+						            <th>Actions</th>
+						          </tr> 
+						        </div>
+						      </thead>
+						         <h3>
+						         	<?php
+				         				// Appending Ordinal Suffix
+						         		$i = $row['building_floor'];
+										$j = 0;
+										$k = 0;
+										$j = $i % 10;
+										$k = $i % 100;
 
-			      </table>
-
-			      <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-margin-bottom">
-			      <thead>
-			        <div>
-			          <tr>
-			            <th>Room Number</th>
-			            <th>Quantity</th>
-			            <th>Appliance Name</th>
-			            <th>Wattage</th>
-			            <th>Total Wattage Per Device</th>
-			            <th>Actions</th>
-			          </tr> 
-			        </div>
-			      </thead>
-			      <h3>First Floor</h3>
-			      <?php 
-			      if ($count_1 != 0) {
-			      while ($row = mysqli_fetch_array($results_1floor)){
-			          ?>
-			          <thead>
-			            <div>
-			              <tr>
-			                <td><?php echo $row['room_number']; ?></td>
-			                <td><?php echo $row['qty']; ?></td>
-			                <td><?php echo $row['appliance_name'];  ?></td>
-			                <td><?php echo $row['watt']; ?></td>
-			                <td><?php echo $row['qty']*$row['watt']; ?></td>
-			                <td>
-			                  <a href="wattage_compute.php?building_name=<?php echo $building_name; ?>&edit=<?php echo $row['id']; ?>" class="edit_btn"><i class="fa fa-pencil-square"></i></a>&nbsp;
-			                  <a href="wattage_compute.php?delete=<?php echo $row['id']; ?>" class="del_btn"><i class="fa fa-trash"></i></a>&nbsp;
-			                </td>
-			                </tr>   
-			              </div>
-			            </thead>
-			        <?php
-			        }			        	
-			      }
-			      else {
-			      	?>
-			      	<thead>
-			      		<div>
-			      			<tr>
-			      				<td colspan="6">
-			      					<center><?php echo "No data for First Floor"; ?></center>
-			      				</td>
-			      			</tr>
-			      		</div>
-			      	</thead>
-		      	<?php
-			      }
-			      ?>
-
-			      </table>
-
-				<table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-margin-bottom">
-			      <thead>
-			        <div>
-			          <tr>
-			            <th>Room Number</th>
-			            <th>Quantity</th>
-			            <th>Appliance Name</th>
-			            <th>Wattage</th>
-			            <th>Total Wattage Per Device</th>
-			            <th>Actions</th>
-			          </tr> 
-			        </div>
-			      </thead>
-			      <h3>Second Floor</h3>
-			      <?php 
-			      if ($count_2 != 0) {
-			      while ($row = mysqli_fetch_array($results_2floor)){
-			          ?>
-			          <thead>
-			            <div>
-			              <tr>
-			                <td><?php echo $row['room_number']; ?></td>
-			                <td><?php echo $row['qty']; ?></td>
-			                <td><?php echo $row['appliance_name'];  ?></td>
-			                <td><?php echo $row['watt']; ?></td>
-			                <td><?php echo $row['qty']*$row['watt']; ?></td>
-			                <td>
-			                  <a href="wattage_compute.php?building_name=<?php echo $building_name; ?>&edit=<?php echo $row['id']; ?>" class="edit_btn"><i class="fa fa-pencil-square"></i></a>&nbsp;
-			                  <a href="wattage_compute.php?delete=<?php echo $row['id']; ?>" class="del_btn"><i class="fa fa-trash"></i></a>&nbsp;
-			                </td>
-			                </tr>   
-			              </div>
-			            </thead>
-			        <?php
-			        }			        	
-			      }
-			      else {
-			      	?>
-			      	<thead>
-			      		<div>
-			      			<tr>
-			      				<td colspan="6">
-			      					<center><?php echo "No data for Second Floor"; ?></center>
-			      				</td>
-			      			</tr>
-			      		</div>
-			      	</thead>
-		      	<?php
-			      }
-			      ?>
-			      </table>
-			      <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-margin-bottom">
-			      <thead>
-			        <div>
-			          <tr>
-			            <th>Room Number</th>
-			            <th>Quantity</th>
-			            <th>Appliance Name</th>
-			            <th>Wattage</th>
-			            <th>Total Wattage Per Device</th>
-			            <th>Actions</th>
-			          </tr> 
-			        </div>
-			      </thead>
-			      <h3>Third Floor</h3>
-			      <?php 
-			      if ($count_3 != 0) {
-			      while ($row = mysqli_fetch_array($results_3floor)){
-			          ?>
-			          <thead>
-			            <div>
-			              <tr>
-			                <td><?php echo $row['room_number']; ?></td>
-			                <td><?php echo $row['qty']; ?></td>
-			                <td><?php echo $row['appliance_name'];  ?></td>
-			                <td><?php echo $row['watt']; ?></td>
-			                <td><?php echo $row['qty']*$row['watt']; ?></td>
-			                <td>
-			                  <a href="wattage_compute.php?building_name=<?php echo $building_name; ?>&edit=<?php echo $row['id']; ?>" class="edit_btn"><i class="fa fa-pencil-square"></i></a>&nbsp;
-			                  <a href="wattage_compute.php?delete=<?php echo $row['id']; ?>" class="del_btn"><i class="fa fa-trash"></i></a>&nbsp;
-			                </td>
-			                </tr>   
-			              </div>
-			            </thead>
-			        <?php
-			        }			        	
-			      }
-			      else {
-			      	?>
-			      	<thead>
-			      		<div>
-			      			<tr>
-			      				<td colspan="6">
-			      					<center><?php echo "No data for Third Floor"; ?></center>
-			      				</td>
-			      			</tr>
-			      		</div>
-			      	</thead>
-		      	<?php
-			      }
-			      ?>
-		      </table>
-		      <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-margin-bottom">
-			      <thead>
-			        <div>
-			          <tr>
-			            <th>Room Number</th>
-			            <th>Quantity</th>
-			            <th>Appliance Name</th>
-			            <th>Wattage</th>
-			            <th>Total Wattage Per Device</th>
-			            <th>Actions</th>
-			          </tr> 
-			        </div>
-			      </thead>
-			      <h3>Fourth Floor</h3>
-			      <?php 
-			      if ($count_4 != 0) {
-			      while ($row = mysqli_fetch_array($results_4floor)){
-			          ?>
-			          <thead>
-			            <div>
-			              <tr>
-			                <td><?php echo $row['room_number']; ?></td>
-			                <td><?php echo $row['qty']; ?></td>
-			                <td><?php echo $row['appliance_name'];  ?></td>
-			                <td><?php echo $row['watt']; ?></td>
-			                <td><?php echo $row['qty']*$row['watt']; ?></td>
-			                <td>
-			                  <a href="wattage_compute.php?building_name=<?php echo $building_name; ?>&edit=<?php echo $row['id']; ?>" class="edit_btn"><i class="fa fa-pencil-square"></i></a>&nbsp;
-			                  <a href="wattage_compute.php?delete=<?php echo $row['id']; ?>" class="del_btn"><i class="fa fa-trash"></i></a>&nbsp;
-			                </td>
-			                </tr>   
-			              </div>
-			            </thead>
-			        <?php
-			        }			        	
-			      }
-			      else {
-			      	?>
-			      	<thead>
-			      		<div>
-			      			<tr>
-			      				<td colspan="6">
-			      					<center><?php echo "No data for Fourth Floor"; ?></center>
-			      				</td>
-			      			</tr>
-			      		</div>
-			      	</thead>
-		      	<?php
-			      }
-			      ?>
-		      </table>
-		      <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-margin-bottom">
-			      <thead>
-			        <div>
-			          <tr>
-			            <th>Room Number</th>
-			            <th>Quantity</th>
-			            <th>Appliance Name</th>
-			            <th>Wattage</th>
-			            <th>Total Wattage Per Device</th>
-			            <th>Actions</th>
-			          </tr> 
-			        </div>
-			      </thead>
-			      <h3>Fifth Floor</h3>
-			      <?php 
-			      if ($count_5 != 0) {
-			      while ($row = mysqli_fetch_array($results_5floor)){
-			          ?>
-			          <thead>
-			            <div>
-			              <tr>
-			                <td><?php echo $row['room_number']; ?></td>
-			                <td><?php echo $row['qty']; ?></td>
-			                <td><?php echo $row['appliance_name'];  ?></td>
-			                <td><?php echo $row['watt']; ?></td>
-			                <td><?php echo $row['qty']*$row['watt']; ?></td>
-			                <td>
-			                  <a href="wattage_compute.php?building_name=<?php echo $building_name; ?>&edit=<?php echo $row['id']; ?>" class="edit_btn"><i class="fa fa-pencil-square"></i></a>&nbsp;
-			                  <a href="wattage_compute.php?delete=<?php echo $row['id']; ?>" class="del_btn"><i class="fa fa-trash"></i></a>&nbsp;
-			                </td>
-			                </tr>   
-			              </div>
-			            </thead>
-			        <?php
-			        }			        	
-			      }
-			      else {
-			      	?>
-			      	<thead>
-			      		<div>
-			      			<tr>
-			      				<td colspan="6">
-			      					<center><?php echo "No data for Fifth Floor"; ?></center>
-			      				</td>
-			      			</tr>
-			      		</div>
-			      	</thead>
-		      	<?php
-			      }
-			      ?>
-		      </table>
-  			<?php
+										if ($j == 0) {
+											$building_floor = "Ground Floor";
+										}
+										else if ($j == 1 && $k != 11) {
+											$building_floor = $i . "st Floor";
+										}
+										else if ($j == 2 && $k != 12) {
+											$building_floor = $i . "nd Floor";
+										}
+										else if ($j == 3 && $k != 13) {
+											$building_floor = $i . "rd Floor";
+										}
+										else {
+											$building_floor = $i . "th Floor";
+										}
+										echo $building_floor;
+						         	?>
+						         </h3>
+						      
+							          <thead>
+							            <div>
+							              <tr>
+							                <td><?php echo $row['room_number']; ?></td>
+							                <td><?php echo $row['qty']; ?></td>
+							                <td><?php echo $row['appliance_name'];  ?></td>
+							                <td><?php echo $row['watt']; ?></td>
+							                <td><?php echo $row['qty']*$row['watt']; ?></td>
+							                <td>
+							                  <a href="wattage_compute.php?building_name=<?php echo $building_name; ?>&edit=<?php echo $row['id']; ?>" class="edit_btn"><i class="fa fa-pencil-square"></i></a>&nbsp;
+							                  <a href="wattage_compute.php?delete=<?php echo $row['id']; ?>" class="del_btn"><i class="fa fa-trash"></i></a>&nbsp;
+						                	</td>	
+							                </tr>   
+							              </div>
+							            </thead>
+					        <?php
+							        }			        	
+						      }
+						   	?>
+						    </table>
+<?php
+				}
+			}
  	}
-    ?>	
+?>	
 	</div>
 </div>
 
@@ -559,34 +323,10 @@ if (isset($_GET['delete'])) {
 									<?php
 								}
 								?>
-							</select></p>
-							<p><select name="building_floor" placeholder="Building Floor">
-								<?php 
-								if (isset($_GET['edit'])) {
-								?>
-									<option <?php if ($building_floor == "None" ) echo 'selected' ; ?> value="None">-Select floor-</option>
-									<option <?php if ($building_floor == "G-Floor" ) echo 'selected' ; ?> value="G-Floor" selected>G-Floor</option>
-									<option <?php if ($building_floor == "1st Floor" ) echo 'selected' ; ?> value="1st Floor">1st Floor</option>
-									<option <?php if ($building_floor == "2nd Floor" ) echo 'selected' ; ?> value="2nd Floor">2nd Floor</option>
-									<option <?php if ($building_floor == "3rd Floor" ) echo 'selected' ; ?> value="3rd Floor">3rd Floor</option>
-									<option <?php if ($building_floor == "4th Floor" ) echo 'selected' ; ?> value="4th Floor">4th Floor</option>
-									<option <?php if ($building_floor == "5th Floor" ) echo 'selected' ; ?> value="5th Floor">5th Floor</option>
-								<?php
-								}
-								else {
-									?>
-									<option value="None" selected>-Select floor-</option>
-									<option value="G-Floor">G-Floor</option>
-									<option value="1st Floor">1st Floor</option>
-									<option value="2nd Floor">2nd Floor</option>
-									<option value="3rd Floor">3rd Floor</option>
-									<option value="4th Floor">4th Floor</option>
-									<option value="5th Floor">5thFloor</option>
-								<?php
-								}
-								?>
-								</select></p>
-								<p><input name="room_number" type="number" placeholder="Room Number" value="<?php echo $room_number; ?>" required></p>
+							</select></p>	
+							<p><input name="building_floor" type="number" placeholder="Enter Floor Number (Note: Use 0 for Ground Floor)" value="<?php echo $room_number; ?>" required></p>
+							<p><input name="room_number" type="number" placeholder="Enter Room Number" value="<?php echo $room_number; ?>" required></p>
+
 						
 							<div class="w3-section">
 								<table>

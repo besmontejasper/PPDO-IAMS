@@ -7,10 +7,12 @@
 	$room_number = "";
 	$appliance_name = "";
 	$qty = "";
+	
 
 	if (isset($_POST['save'])) {
 		$building_name = $_POST['building_name'];
 		$building_floor = $_POST['building_floor'];
+
 		$room_number = $_POST['room_number'];
 		
 
@@ -25,6 +27,7 @@
 			echo $building_name;
 			echo $building_floor;
 			echo $room_number;
+
 			for($i=0, $count = count($selectArray);$i<$count;$i++) {
 				$appliance_name  = $selectArray[$i];
 			 	$qty = $qtyArray[$i];
@@ -34,6 +37,7 @@
 			 	echo $qty;
 			 	echo $appliance_name;
 			 	echo $watt;
+			 	mysqli_query($db, "SELECT * FROM watt_computation");
 
 			 	mysqli_query($db, "INSERT INTO watt_computation (building_name, building_floor, room_number, qty, appliance_name, watt) VALUES ('$building_name', '$building_floor', '$room_number', '$qty', '$appliance_name', '$watt') ");
 			}

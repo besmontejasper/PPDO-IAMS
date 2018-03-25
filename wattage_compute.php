@@ -220,15 +220,15 @@ if (isset($_GET['delete'])) {
 			<h1><?php echo $building_name; ?></h1>
 			<form method="post" action="watt_server.php">
 			<input type="hidden" name="building_name" value="<?php echo $_GET['building_name']; ?>">
-			<p><select name="filter_name" placeholder="Filter Results">		
+			<p><select name="filter_name" placeholder="Filter Results" class="w3-third w3-border-black">		
 					<option value="none">Filter by Appliance</option>
-					<option value="T5">T5  (Lightning Loads)</option>
-					<option value="T8">T8  (Lightning Loads)</option>
-					<option value="T8/C">T8/C  (Lightning Loads)</option>
-					<option value="LED">LED (Lightning Loads)</option>
-					<option value="CFL">CFL (Lightning Loads)</option>
-					<option value="CFL/EL">CFL/EL (Lightning Loads)</option>
-					<option value="LED Bulb">LED Bulb (Lightning Loads)</option>
+					<option value="T5">T5  (Lighting Loads)</option>
+					<option value="T8">T8  (Lighting Loads)</option>
+					<option value="T8/C">T8/C  (Lighting Loads)</option>
+					<option value="LED">LED (Lighting Loads)</option>
+					<option value="CFL">CFL (Lighting Loads)</option>
+					<option value="CFL/EL">CFL/EL (Lighting Loads)</option>
+					<option value="LED Bulb">LED Bulb (Lighting Loads)</option>
 					<option value="2.5 Window Type">2.5 Window Type, rating (HP) (ACU)</option>
 					<option value="2 Window Type">2 Window Type, rating (HP) (ACU)</option>
 					<option value="1.5 Window Type">1.5 Window Type, rating (HP) (ACU)</option>
@@ -245,8 +245,8 @@ if (isset($_GET['delete'])) {
 					<option value="Projector">Projector (Multimedia Equipment)</option>
 					<option value="Brand ME">Other Brand (Multimedia Equipment)</option>	
 				</select></p>	
-				<button name="filter" type="submit">Filter</button>
-				<button name="remove_filter" type="submit">Remove Filter</button>
+				<button name="filter" type="submit" class="w3-button w3-teal w3-hover-green w3-margin-left" style="padding: 11px; width:100px;"><i class="fa fa-filter"></i>&nbsp;Filter</button>
+				<button name="remove_filter" type="submit" class="w3-button w3-pink w3-hover-red" style="padding: 11px; width:150px;"><i class="fa fa-remove"></i>&nbsp;Remove Filter</button>
 			</form>
 			<h3>Total Wattage for Building: <?php echo $total_wattage_for_building; ?></h3>
 		
@@ -418,13 +418,13 @@ if (isset($_GET['delete'])) {
 												<td><input type="number" name="qty" value="<?php echo $qty; ?>"></td>
 												<td><select style="width:300px;" name="appliance_name" class="w3-input">
 													<option <?php if ($appliance_name == "None" ) echo 'selected' ; ?> value="none">Choose Appliance</option>
-													<option <?php if ($appliance_name == "T5" ) echo 'selected' ; ?> value="T5">T5  (Lightning Loads)</option>
-													<option <?php if ($appliance_name == "T8" ) echo 'selected' ; ?> value="T8">T8  (Lightning Loads)</option>
-													<option <?php if ($appliance_name == "T8/C" ) echo 'selected' ; ?> value="T8/C">T8/C  (Lightning Loads)</option>
-													<option <?php if ($appliance_name == "LED" ) echo 'selected' ; ?> value="LED">LED (Lightning Loads)</option>
-													<option <?php if ($appliance_name == "CFL" ) echo 'selected' ; ?> value="CFL">CFL (Lightning Loads)</option>
-													<option <?php if ($appliance_name == "CFL/EL" ) echo 'selected' ; ?> value="CFL/EL">CFL/EL (Lightning Loads)</option>
-													<option <?php if ($appliance_name == "LED Bulb" ) echo 'selected' ; ?> value="LED Bulb">LED Bulb (Lightning Loads)</option>
+													<option <?php if ($appliance_name == "T5" ) echo 'selected' ; ?> value="T5">T5  (Lighting Loads)</option>
+													<option <?php if ($appliance_name == "T8" ) echo 'selected' ; ?> value="T8">T8  (Lighting Loads)</option>
+													<option <?php if ($appliance_name == "T8/C" ) echo 'selected' ; ?> value="T8/C">T8/C  (Lighting Loads)</option>
+													<option <?php if ($appliance_name == "LED" ) echo 'selected' ; ?> value="LED">LED (Lighting Loads)</option>
+													<option <?php if ($appliance_name == "CFL" ) echo 'selected' ; ?> value="CFL">CFL (Lighting Loads)</option>
+													<option <?php if ($appliance_name == "CFL/EL" ) echo 'selected' ; ?> value="CFL/EL">CFL/EL (Lighting Loads)</option>
+													<option <?php if ($appliance_name == "LED Bulb" ) echo 'selected' ; ?> value="LED Bulb">LED Bulb (Lighting Loads)</option>
 													<option <?php if ($appliance_name == "2.5 Window Type" ) echo 'selected' ; ?> value="2.5 Window Type">2.5 Window Type, rating (HP) (ACU)</option>
 													<option <?php if ($appliance_name == "2 Window Type" ) echo 'selected' ; ?> value="2 Window Type">2 Window Type, rating (HP) (ACU)</option>
 													<option <?php if ($appliance_name == "1.5 Window Type" ) echo 'selected' ; ?> value="1.5 Window Type">1.5 Window Type, rating (HP) (ACU)</option>
@@ -682,7 +682,7 @@ function fixStepIndicator(n) {
 		});
 	});
 	function GetDynamicTextBox(value) {
-		return '<td><input type="number" name="qtyArray[]" value ="" min="0" class="w3-input" style="width:90px;" required/></td>' + '<td><select style="width:300px;" name="selectArray[]" class="w3-input"><option value="none" selected>Choose Appliance</option><option value="T5">T5  (Lightning Loads)</option><option value="T8">T8  (Lightning Loads)</option><option value="T8/C">T8/C  (Lightning Loads)</option><option value="LED">LED (Lightning Loads)</option><option value="CFL">CFL (Lightning Loads)</option><option value="CFL/EL">CFL/EL (Lightning Loads)</option><option value="LED Bulb">LED Bulb (Lightning Loads)</option><option value="2.5 Window Type">2.5 Window Type, rating (HP) (ACU)</option><option value="2 Window Type">2 Window Type, rating (HP) (ACU)</option><option value="1.5 Window Type">1.5 Window Type, rating (HP) (ACU)</option><option value="1 Split Type">1 Split Type, Rating (Ton) (ACU)</option><option value="2 Split Type">2 Split Type, Rating (Ton) (ACU)</option><option value="4 Split Type">4 Split Type, Rating (Ton) (ACU)</option><option value="Brand ACU">Other Brand (ACU)</option><option value="Orbit Fan">Orbit Fan (Ventilation)</option><option value="Wall Fan">Wall Fan (Ventilation)</option><option value="Stand Fan">Stand Fan (Ventilation)</option><option value="TV SET,LED">TV SET,LED (Multimedia Equipment)</option><option value="Desktop">Desktop (Multimedia Equipment)</option><option value="Laptop">Laptop (Multimedia Equipment)</option><option value="Projector">Projector (Multimedia Equipment)</option><option value="Brand ME">Other Brand (Multimedia Equipment)</option></select></td>' + '<td><input type="number" name="wattArray[]" min="0" class="w3-input" style="width:90px;" value = "" required/></td>' + '<td><button type="button" class="w3-button w3-red remove"><i class="fa fa-remove"></i></button></td>'
+		return '<td><input type="number" name="qtyArray[]" value ="" min="0" class="w3-input" style="width:90px;" required/></td>' + '<td><select style="width:300px;" name="selectArray[]" class="w3-input"><option value="none" selected>Choose Appliance</option><option value="T5">T5  (Lighting Loads)</option><option value="T8">T8  (Lighting Loads)</option><option value="T8/C">T8/C  (Lighting Loads)</option><option value="LED">LED (Lighting Loads)</option><option value="CFL">CFL (Lighting Loads)</option><option value="CFL/EL">CFL/EL (Lighting Loads)</option><option value="LED Bulb">LED Bulb (Lighting Loads)</option><option value="2.5 Window Type">2.5 Window Type, rating (HP) (ACU)</option><option value="2 Window Type">2 Window Type, rating (HP) (ACU)</option><option value="1.5 Window Type">1.5 Window Type, rating (HP) (ACU)</option><option value="1 Split Type">1 Split Type, Rating (Ton) (ACU)</option><option value="2 Split Type">2 Split Type, Rating (Ton) (ACU)</option><option value="4 Split Type">4 Split Type, Rating (Ton) (ACU)</option><option value="Brand ACU">Other Brand (ACU)</option><option value="Orbit Fan">Orbit Fan (Ventilation)</option><option value="Wall Fan">Wall Fan (Ventilation)</option><option value="Stand Fan">Stand Fan (Ventilation)</option><option value="TV SET,LED">TV SET,LED (Multimedia Equipment)</option><option value="Desktop">Desktop (Multimedia Equipment)</option><option value="Laptop">Laptop (Multimedia Equipment)</option><option value="Projector">Projector (Multimedia Equipment)</option><option value="Brand ME">Other Brand (Multimedia Equipment)</option></select></td>' + '<td><input type="number" name="wattArray[]" min="0" class="w3-input" style="width:90px;" value = "" required/></td>' + '<td><button type="button" class="w3-button w3-red remove"><i class="fa fa-remove"></i></button></td>'
 	}
 </script>
 

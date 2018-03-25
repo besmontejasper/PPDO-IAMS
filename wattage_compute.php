@@ -177,18 +177,39 @@ if (isset($_GET['delete'])) {
 		else if ($_GET['building_name'] == "ITC") {
 			$building_name = "ITC";
 		}
- 			$row_wattage = 0;
- 			$total_wattage_for_building = 0;
- 			$results = mysqli_query($db, "SELECT * FROM watt_computation WHERE building_name = '$building_name' "); 
- 			$max_result = mysqli_query($db, "SELECT MAX(building_floor) as max_floor FROM watt_computation");
- 			$max_row = mysqli_fetch_array($max_result);
- 			$max_number = $max_row['max_floor'];
+		$row_wattage = 0;
+		$total_wattage_for_building = 0;
+		if (isset($_GET['filter_name'])) {
 
-			// Total Wattage Computation
-			while ($row = mysqli_fetch_array($results)){
-				$row_wattage = $row['qty'] * $row['watt'];
-				$total_wattage_for_building = $total_wattage_for_building + $row_wattage;
-			}
+			$filter_name = $_GET['filter_name'];
+			$query = "SELECT * FROM watt_computation";
+		    $conditions = array();
+		    if(! empty($filter_name)) {
+		      $conditions[] = "appliance_name='$filter_name'";
+		    }
+		    if(! empty($building_name)) {
+		      $conditions[] = "building_name='$building_name'";
+		    }
+		    $sql = $query;
+		    if (count($conditions) > 0) {
+		      $sql .= " WHERE " . implode(' AND ', $conditions);
+		    }
+
+	    	$results = mysqli_query($db, "$sql");
+		}
+		else {
+			$results = mysqli_query($db, "SELECT * FROM watt_computation WHERE building_name = '$building_name' "); 	
+		}
+
+		$max_result = mysqli_query($db, "SELECT MAX(building_floor) as max_floor FROM watt_computation");
+		$max_row = mysqli_fetch_array($max_result);
+		$max_number = $max_row['max_floor'];
+
+	// Total Wattage Computation
+	while ($row = mysqli_fetch_array($results)){
+		$row_wattage = $row['qty'] * $row['watt'];
+		$total_wattage_for_building = $total_wattage_for_building + $row_wattage;
+	}
 
 
 			
@@ -197,6 +218,36 @@ if (isset($_GET['delete'])) {
 			?>
 		
 			<h1><?php echo $building_name; ?></h1>
+			<form method="post" action="watt_server.php">
+			<input type="hidden" name="building_name" value="<?php echo $_GET['building_name']; ?>">
+			<p><select name="filter_name" placeholder="Filter Results">		
+					<option value="none">Filter by Appliance</option>
+					<option value="T5">T5  (Lightning Loads)</option>
+					<option value="T8">T8  (Lightning Loads)</option>
+					<option value="T8/C">T8/C  (Lightning Loads)</option>
+					<option value="LED">LED (Lightning Loads)</option>
+					<option value="CFL">CFL (Lightning Loads)</option>
+					<option value="CFL/EL">CFL/EL (Lightning Loads)</option>
+					<option value="LED Bulb">LED Bulb (Lightning Loads)</option>
+					<option value="2.5 Window Type">2.5 Window Type, rating (HP) (ACU)</option>
+					<option value="2 Window Type">2 Window Type, rating (HP) (ACU)</option>
+					<option value="1.5 Window Type">1.5 Window Type, rating (HP) (ACU)</option>
+					<option value="1 Split Type">1 Split Type, Rating (Ton) (ACU)</option>
+					<option value="2 Split Type">2 Split Type, Rating (Ton) (ACU)</option>
+					<option value="4 Split Type">4 Split Type, Rating (Ton) (ACU)</option>
+					<option value="Brand ACU">Other Brand (ACU)</option>
+					<option value="Orbit Fan">Orbit Fan (Ventilation)</option>
+					<option value="Wall Fan">Wall Fan (Ventilation)</option>
+					<option value="Stand Fan">Stand Fan (Ventilation)</option>
+					<option value="TV SET,LED">TV SET,LED (Multimedia Equipment)</option>
+					<option value="Desktop">Desktop (Multimedia Equipment)</option>
+					<option value="Laptop">Laptop (Multimedia Equipment)</option>
+					<option value="Projector">Projector (Multimedia Equipment)</option>
+					<option value="Brand ME">Other Brand (Multimedia Equipment)</option>	
+				</select></p>	
+				<button name="filter" type="submit">Filter</button>
+				<button name="remove_filter" type="submit">Remove Filter</button>
+			</form>
 			<h3>Total Wattage for Building: <?php echo $total_wattage_for_building; ?></h3>
 		
 			<?php
@@ -210,36 +261,41 @@ if (isset($_GET['delete'])) {
 			else {
 				// Checks if floor is empty
 				for ($i=0; $i<=$max_number; $i++) {
-					${"result_$i"} = mysqli_query($db, "SELECT * FROM watt_computation WHERE building_name = '$building_name' AND building_floor='$i' ");
+					if (isset($_GET['filter_name'])) {
+						$filter_name = $_GET['filter_name'];
+						$query = "SELECT * FROM watt_computation";
+					    $conditions = array();
+					    if(! empty($filter_name)) {
+					      $conditions[] = "appliance_name='$filter_name'";
+					    }
+					    if(! empty($building_name)) {
+					      $conditions[] = "building_name='$building_name'";
+					    }
+					    $sql = $query;
+					    if (count($conditions) > 0) {
+					      $sql .= " WHERE " . implode(' AND ', $conditions);
+					    }
+
+						$sql .= "AND building_floor='$i'";
+						${"result_$i"} = mysqli_query($db, "$sql");
+					}
+					else {
+						${"result_$i"} = mysqli_query($db, "SELECT * FROM watt_computation WHERE building_name = '$building_name' AND building_floor='$i' ");
+					}
 					${"count_$i"} = mysqli_num_rows(${"result_$i"});
 				?>
 					  <?php 
 			  			if (${"count_$i"} != 0) {
-			      			while ($row = mysqli_fetch_array(${"result_$i"})){
-			          ?>
-					  <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-margin-bottom">
-						      <thead>
-						        <div>
-						          <tr>
-						            <th>Room Number</th>
-						            <th>Quantity</th>
-						            <th>Appliance Name</th>
-						            <th>Wattage</th>
-						            <th>Total Wattage Per Device</th>
-						            <th>Actions</th>
-						          </tr> 
-						        </div>
-						      </thead>
-						         <h3>
+			  				?>
+			  				<h3>
 						         	<?php
 				         				// Appending Ordinal Suffix
-						         		$i = $row['building_floor'];
 										$j = 0;
 										$k = 0;
 										$j = $i % 10;
 										$k = $i % 100;
 
-										if ($j == 0) {
+										if ($i == 0) {
 											$building_floor = "Ground Floor";
 										}
 										else if ($j == 1 && $k != 11) {
@@ -257,22 +313,37 @@ if (isset($_GET['delete'])) {
 										echo $building_floor;
 						         	?>
 						         </h3>
-						      
-							          <thead>
-							            <div>
-							              <tr>
-							                <td><?php echo $row['room_number']; ?></td>
-							                <td><?php echo $row['qty']; ?></td>
-							                <td><?php echo $row['appliance_name'];  ?></td>
-							                <td><?php echo $row['watt']; ?></td>
-							                <td><?php echo $row['qty']*$row['watt']; ?></td>
-							                <td>
-							                  <a href="wattage_compute.php?building_name=<?php echo $building_name; ?>&edit=<?php echo $row['id']; ?>" class="edit_btn"><i class="fa fa-pencil-square"></i></a>&nbsp;
-							                  <a href="wattage_compute.php?delete=<?php echo $row['id']; ?>" class="del_btn"><i class="fa fa-trash"></i></a>&nbsp;
-						                	</td>	
-							                </tr>   
-							              </div>
-							            </thead>
+			  				<table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-margin-bottom">
+						      <thead>
+						        <div>
+						          <tr>
+						            <th>Room Number</th>
+						            <th>Quantity</th>
+						            <th>Appliance Name</th>
+						            <th>Wattage</th>
+						            <th>Total Wattage Per Device</th>
+						            <th>Actions</th>
+						          </tr> 
+						        </div>
+						      </thead>
+			  				<?php
+			      			while (${"row_$i"} = mysqli_fetch_array(${"result_$i"})){
+			          ?>
+					       <thead>
+				            <div>
+				              <tr>
+				                <td><?php echo ${"row_$i"}['room_number']; ?></td>
+				                <td><?php echo ${"row_$i"}['qty']; ?></td>
+				                <td><?php echo ${"row_$i"}['appliance_name'];  ?></td>
+				                <td><?php echo ${"row_$i"}['watt']; ?></td>
+				                <td><?php echo ${"row_$i"}['qty']*${"row_$i"}['watt']; ?></td>
+				                <td>
+				                  <a href="wattage_compute.php?building_name=<?php echo $building_name; ?>&edit=<?php echo $row['id']; ?>" class="edit_btn"><i class="fa fa-pencil-square"></i></a>&nbsp;
+				                  <a href="wattage_compute.php?delete=<?php echo $row['id']; ?>" class="del_btn"><i class="fa fa-trash"></i></a>&nbsp;
+			                	</td>	
+				                </tr>   
+				              </div>
+				            </thead>
 					        <?php
 							        }			        	
 						      }

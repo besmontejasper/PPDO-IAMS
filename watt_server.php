@@ -74,10 +74,22 @@
 		header('location: wattage_compute.php');
 	}
 
-	if (isset($_GET['building_name'])) {
-		$building_name = $_GET['building_name'];
-		header('location: wattage_compute.php?building_name='.$building_name.'');
+	if (isset($_POST['filter'])) {
+		$filter = $_POST['filter_name'];
+		$building_name = $_POST['building_name'];
+		if ($filter == "none") {
+			header('location: wattage_compute.php?building_name='.$building_name.'');
+		}
+		else {
+			header('location: wattage_compute.php?building_name='.$building_name.'&filter_name='.$filter.' ');
+		}
+		
+
 	}
 
+	if (isset($_POST['remove_filter'])) {
+		$building_name = $_POST['building_name'];
+		header('location: wattage_compute.php?building_name='.$building_name.'');
+	}
 
 ?>
